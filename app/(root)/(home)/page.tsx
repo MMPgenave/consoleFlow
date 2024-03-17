@@ -33,10 +33,12 @@ export default async function Home() {
         <HomePageFilter filterData={HomePageFilters} />
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
-        {results!.questions.length > 0 ? (
-          JSON.parse(JSON.stringify(results?.questions)).map((question:any) => {
-            return <QuestionCard question={question} key={question.id} />;
-          })
+        {results?.questions.length > 0 ? (
+          JSON.parse(JSON.stringify(results?.questions)).map(
+            (question: any) => {
+              return <QuestionCard question={question} key={question.id} />;
+            },
+          )
         ) : (
           <NoResult
             title="  سوالی برای نشان دادن وجود ندارد"

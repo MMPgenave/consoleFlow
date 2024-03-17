@@ -27,7 +27,7 @@ const QuestionCard = ({ question }: PropType) => {
     >
       <div className="flex flex-col gap-1">
         <div className="small-regular text-dark400_light800 sm:hidden">
-          {question.createdAt}
+          {timeStampCalculator(question.createdAt)}
         </div>
         <Link
           href={`/questions/${question.id}`}

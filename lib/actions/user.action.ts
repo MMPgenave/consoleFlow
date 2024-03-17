@@ -14,6 +14,7 @@ export async function getUserById(params: any) {
   try {
     await connectToDataBase();
     const { userId } = params;
+    console.log(`userId in user actions is :${userId}`);
     const user = await User.findOne({ clerkId: userId });
     return user;
   } catch (error) {

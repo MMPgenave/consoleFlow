@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { SidebarLink } from "@/types";
 
 export const themes = [
@@ -27,7 +28,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/users.svg",
     route: "/community",
-    label: "جامعه",
+    label: "افراد",
   },
   {
     imgURL: "/assets/icons/star.svg",

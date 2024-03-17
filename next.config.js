@@ -1,7 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["example.com"], // Add the hostname of the external image URL here
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*",
+      },
+      {
+        protocol: "http",
+        hostname: "*", 
+      },
+    ],
+    domains: ["example.com", "img.clerk.com"], // Add the hostname of the external image URL here
   },
 };
 
