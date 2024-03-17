@@ -6,16 +6,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+interface filterObject {
+  name: string;
+  value: string;
+}
 interface customType {
   filterData: Array<filterObject>;
   placeholder: string;
   otherClasses?: string;
   height?: string;
 }
-interface filterObject {
-  name: string;
-  value: string;
-}
+
 const Filter = ({
   filterData,
   placeholder,
@@ -29,7 +30,7 @@ const Filter = ({
           className={`relative sm:min-w-[180px] ${height} light-border background-light800_dark300  text-dark500_light700 border px-5 py-2.5`}
         >
           <SelectValue
-            className="text-right flex-1"
+            className="flex-1 text-right"
             placeholder={placeholder}
           />
         </SelectTrigger>

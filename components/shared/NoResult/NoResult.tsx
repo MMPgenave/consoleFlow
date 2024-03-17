@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +17,7 @@ const NoResult = ({
   description,
 }: propType) => {
   return (
-    <div className="mt-[50px] flex flex-col px-[100px] items-center gap-3">
+    <div className="mt-[50px] flex flex-col items-center gap-3 px-[100px]">
       <Image
         src={"/assets/images/light-illustration.png"}
         width={250}
@@ -29,13 +30,13 @@ const NoResult = ({
         width={250}
         height={200}
         alt="dark-illustration"
-        className="dark:flex hidden"
+        className="hidden dark:flex"
       />
       <h1 className="h2-bold text-dark200_light900 ">{title}</h1>
       <p className="body-regular text-dark500_light700">{description}</p>
       <Link
         href={button_href}
-        className="primary-gradient  px-4 py-3 paragraph-medium text-light-900 rounded-md hover:opacity-80"
+        className="primary-gradient  paragraph-medium rounded-md px-4 py-3 text-light-900 hover:opacity-80"
       >
         {button_content}
       </Link>

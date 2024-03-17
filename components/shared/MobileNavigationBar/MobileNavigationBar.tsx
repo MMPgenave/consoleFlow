@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
-import { SignedOut, SignIn } from "@clerk/nextjs";
+// import { SignedOut, SignIn } from "@clerk/nextjs";
 
 const MobileNavigationBar = () => {
   const path = usePathname();
@@ -19,7 +19,7 @@ const MobileNavigationBar = () => {
     <Sheet>
       <SheetTrigger asChild>
         <Image
-          className="invert-colors sm:hidden cursor-pointer"
+          className="invert-colors cursor-pointer sm:hidden"
           src={"/assets/icons/hamburger.svg"}
           alt="humberger"
           height={36}
@@ -44,7 +44,7 @@ const MobileNavigationBar = () => {
           </Link>
         </SheetClose>
 
-        <div className="flex flex-col gap-2 pt-16 h-full  w-[60%]">
+        <div className="flex h-full w-[60%] flex-col gap-2  pt-16">
           {sidebarLinks.map((link) => {
             const { imgURL, route, label } = link;
             return (
@@ -71,11 +71,11 @@ const MobileNavigationBar = () => {
           })}
         </div>
 
-        <div className="flex flex-col gap-2 w-[50%] left-0 right-0 mx-auto  absolute bottom-10 ">
+        <div className="absolute inset-x-0 bottom-10 mx-auto flex w-[50%] flex-col  gap-2 ">
           <SheetClose asChild>
             <Link
               href={"/sign-in"}
-              className="small-medium btn-secondary inline-flex h-9 min-h-[41px]
+              className="small-medium  inline-flex h-9 min-h-[41px]
              w-full items-center justify-center rounded-lg
              bg-slate-900 px-4 py-3 text-sm font-medium
               text-slate-50 shadow-none transition-colors
@@ -100,7 +100,7 @@ const MobileNavigationBar = () => {
           <SheetClose asChild>
           <Link
               href={"/sign-in"}
-              className="small-medium btn-secondary inline-flex h-9 min-h-[41px]
+              className="small-medium  inline-flex h-9 min-h-[41px]
              w-full items-center justify-center rounded-lg
              bg-slate-900 px-4 py-3 text-sm font-medium
               text-slate-50 shadow-none transition-colors

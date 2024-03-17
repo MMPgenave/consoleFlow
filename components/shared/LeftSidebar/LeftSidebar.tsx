@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from "react";
 import { RightSidebar_data, PoplularTags } from "@/constants/index";
 import Link from "next/link";
