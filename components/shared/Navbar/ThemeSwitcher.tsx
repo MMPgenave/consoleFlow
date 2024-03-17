@@ -13,7 +13,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import { themes } from "@/constants";
 import "./themeSwitcher.css";
 const ThemeSwitcher = () => {
-  const { mode, setMode } = useTheme();
+  const { mode, setMode } = useTheme()!;
   return (
     <Menubar className="relative border-none bg-transparent shadow-none">
       <MenubarMenu>
