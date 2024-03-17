@@ -4,7 +4,7 @@ import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { SignedOut, SignIn } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
 const RightSidebar = () => {
   const path = usePathname();
   return (
