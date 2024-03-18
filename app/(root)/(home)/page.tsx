@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SearchQuestions from "@/components/shared/search/SearchQuestions";
+import LocalSearch from "@/components/shared/search/LocalSearch";
 import Filter from "@/components/shared/Filter/Filter";
 import { HomePageFilters } from "@/constants/Filter";
 import HomePageFilter from "@/components/home/HomePageFilter";
@@ -21,7 +21,7 @@ export default async function Home() {
         </Link>
       </div>
       <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:justify-between md:flex-col">
-        <SearchQuestions path="/" placeholder="در سوالات جسجتجو کن" />
+        <LocalSearch route="/" placeholder="در سوالات جسجتجو کن" />
         <div className="md:hidden">
           <Filter
             filterData={HomePageFilters}

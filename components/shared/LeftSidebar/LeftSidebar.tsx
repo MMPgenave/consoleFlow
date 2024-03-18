@@ -24,7 +24,9 @@ const LeftSidebar = () => {
               href={data.URL}
               className="flex w-[95%] items-center justify-between hover:opacity-80"
             >
-              <div className="text-dark400_light800 w-[80%]"> {data.text}</div>
+              <div className="text-dark400_light800 w-[80%] text-sm">
+                {data.text}
+              </div>
               <Image
                 src="/assets/icons/arrow-left.svg"
                 alt="arrow"

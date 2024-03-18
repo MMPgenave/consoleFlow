@@ -24,22 +24,25 @@ const Filter = ({
   height,
 }: customType) => {
   return (
-    <div>
+    <div className="max-sm:w-full">
       <Select>
         <SelectTrigger
-          className={`relative sm:min-w-[180px] ${height} light-border background-light800_dark300  text-dark500_light700 border px-5 py-2.5`}
+          dir="rtl"
+          className={`relative w-full  sm:min-w-[180px] ${height} light-border background-light800_dark300  text-dark500_light700 border px-5 py-2.5`}
         >
           <SelectValue
-            className="flex-1 text-right"
+            className="flex-1 "
             placeholder={placeholder}
+            dir="rtl"
           />
         </SelectTrigger>
-        <SelectContent className=" light-border background-light800_dark300 text-right">
+        <SelectContent className=" light-border background-light800_dark300 ">
           {filterData.map((item) => (
             <SelectItem
               value={item.value}
               key={item.value}
-              className="text-dark500_light700 cursor-pointer text-right"
+              dir="rtl"
+              className="text-dark500_light700 cursor-pointer "
             >
               {item.name}
             </SelectItem>

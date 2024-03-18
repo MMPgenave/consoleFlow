@@ -5,9 +5,9 @@ export const AnswerFilters = [
   { name: "Oldest", value: "old" },
 ];
 export const UserFilters = [
-  { name: "New Users", value: "new_users" },
-  { name: "Old Users", value: "old_users" },
-  { name: "Top Contributors", value: "top_contributors" },
+  { name: "کاربران جدید", value: "new_users" },
+  { name: "کاربران قدیم", value: "old_users" },
+  { name: "مشارکت کنندگان برتر", value: "top_contributors" },
 ];
 export const QuestionFilters = [
   { name: "Most Recent", value: "most_recent" },
@@ -17,10 +17,10 @@ export const QuestionFilters = [
   { name: "Most Answered", value: "most_answered" },
 ];
 export const TagFilters = [
-  { name: "Popular", value: "popular" },
-  { name: "Recent", value: "recent" },
-  { name: "Name", value: "name" },
-  { name: "Old", value: "old" },
+  { name: "محبوب", value: "popular" },
+  { name: "اخیر", value: "recent" },
+  { name: "اسم", value: "name" },
+  { name: "قدیمی", value: "old" },
 ];
 export const HomePageFilters = [
   { name: "جدیدترین ", value: "newest" },

@@ -2,13 +2,13 @@
 import Image from "next/image";
 import React from "react";
 interface CustomType {
-  path: string;
+  route: string;
   placeholder: string;
 }
 
-const SearchQuestions = ({ path, placeholder }: CustomType) => {
+const SearchQuestions = ({ route, placeholder }: CustomType) => {
   return (
-    <div className="w-full background-light800_darkgradient min-h-[50px] rounded-md   flex gap-2 px-2">
+    <div className="background-light800_darkgradient flex min-h-[50px] w-full   gap-2 rounded-md px-2">
       <Image
         src={"/assets/icons/search.svg"}
         width={20}
@@ -19,7 +19,7 @@ const SearchQuestions = ({ path, placeholder }: CustomType) => {
       <input
         type="text"
         placeholder={placeholder}
-        className=" outline-none pr-1 bg-inherit flex-grow dark:text-slate-200"
+        className=" grow bg-inherit pr-1 outline-none dark:text-slate-200"
       />
     </div>
   );

@@ -12,7 +12,6 @@ export default authMiddleware({
     "/jobs",
   ],
   ignoredRoutes: ["/api/webhook"],
-  // just for re deploy
 });
 
 export const config = {

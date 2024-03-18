@@ -11,7 +11,12 @@ const Tag = ({ text, score, showScore, url }: TagProps) => {
     <div className="flex items-center justify-between ">
       <Link
         href={url}
-        className=" w-fit rounded-md bg-light-700 px-4 py-1 uppercase text-dark-400 dark:bg-gray-300 dark:text-gray-800"
+        className=" background-light800_dark300 text-light400_light500
+         inline-flex items-center rounded-md border border-none border-transparent 
+         bg-slate-900 px-4 py-2 text-xs font-semibold uppercase shadow transition-colors
+          hover:bg-slate-900/80 focus:outline-none focus:ring-2 focus:ring-slate-950 
+          focus:ring-offset-2 dark:border-slate-800 dark:bg-slate-50 dark:text-slate-900
+           dark:hover:bg-slate-50/80 dark:focus:ring-slate-300"
       >
         {text}
       </Link>
