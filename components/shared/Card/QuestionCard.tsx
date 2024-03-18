@@ -6,9 +6,9 @@ import Metric from "../Metric/Metric";
 import { timeStampCalculator, formatNumber } from "@/utils";
 interface PropType {
   question: {
-    id: number;
+    _id: string;
     title: string;
-    tags: { id: number; text: string }[];
+    tags: { _id: string; text: string }[];
     author: { id: number; name: string; picture: string };
     upvotes: [];
     downvotes: number;
@@ -23,14 +23,13 @@ const QuestionCard = ({ question }: PropType) => {
     <div
       // eslint-disable-next-line tailwindcss/no-custom-classname
       className="card-wrapper flex w-full flex-col rounded-md  border bg-white p-9 sm:px-11"
-      key={question.id}
     >
       <div className="flex flex-col gap-1">
         <div className="small-regular text-dark400_light800 sm:hidden">
           {timeStampCalculator(question.createdAt)}
         </div>
         <Link
-          href={`/questions/${question.id}`}
+          href={`/question/${question._id}`}
           className="text-dark200_light900  sm:h3-semibold base-semibold line-clamp-1 hover:opacity-80"
         >
           {question.title}
@@ -40,7 +39,9 @@ const QuestionCard = ({ question }: PropType) => {
 
       <div className="mt-3.5 flex flex-wrap gap-2">
         {question.tags.map((tag) => {
-          return <Tag text={tag.text} showScore={false} url="/" key={tag.id} />;
+          return (
+            <Tag text={tag.text} showScore={false} url="/" key={tag._id} />
+          );
         })}
       </div>
 

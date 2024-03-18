@@ -8,7 +8,6 @@ import NoResult from "@/components/shared/NoResult/NoResult";
 import { getAllQuestions } from "@/lib/actions/question.action";
 export default async function Home() {
   const results = await getAllQuestions({});
-  console.log(typeof JSON.stringify(results?.questions));
   return (
     <main className="">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
@@ -36,7 +35,7 @@ export default async function Home() {
         {results!.questions.length > 0 ? (
           JSON.parse(JSON.stringify(results?.questions)).map(
             (question: any) => {
-              return <QuestionCard question={question} key={question.id} />;
+              return <QuestionCard question={question} key={question._id} />;
             },
           )
         ) : (

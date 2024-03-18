@@ -6,6 +6,7 @@ import { Tag } from "@/database/tag.model";
 import { User } from "@/database/user.model";
 import {
   CreateQuestionParams,
+  GetQuestionByIdParams,
   GetQuestionsParams,
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
@@ -59,5 +60,19 @@ export async function getAllQuestions(params: GetQuestionsParams) {
     return { questions };
   } catch (error) {
     console.error(`error in getAllQuestions server action is :${error}`);
+  }
+}
+
+export async function getQuestionById(params: GetQuestionByIdParams) {
+  try {
+    connectToDataBase();
+    const { questionId } = params;
+    const question = await Question.findById({ _id: questionId })
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User });
+
+    return { question };
+  } catch (error) {
+    console.error(`error in getQuestionById server action is :${error}`);
   }
 }

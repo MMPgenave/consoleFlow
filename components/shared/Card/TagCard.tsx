@@ -5,12 +5,13 @@ interface PropType {
     text: string;
     description: string;
     inQuestionsUsed: {}[];
+    _id: string;
   };
 }
 export default function TagCard({ data }: PropType) {
   return (
     <Link
-      href={`/tags/`}
+      href={`/tags/${data._id}`}
       className="shadow-light100_darknone w-full max-xs:min-w-full xs:w-[260px]"
     >
       <article
@@ -28,9 +29,8 @@ export default function TagCard({ data }: PropType) {
           است که در کنار HTML و CSS یکی از فناوری های اصلی شبکه جهانی وب است.
         </p>
         <p className="small-medium text-dark400_light500 mt-3.5">
-          در
-          <span className="body-semibold primary-text-gradient mr-2.5">
-            {data.inQuestionsUsed.length}
+          <span className="body-semibold primary-text-gradient ml-1.5">
+            {data.inQuestionsUsed.length}+
           </span>
           سوال
         </p>

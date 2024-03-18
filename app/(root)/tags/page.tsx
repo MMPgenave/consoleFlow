@@ -1,5 +1,6 @@
 import TagCard from "@/components/shared/Card/TagCard";
 import Filter from "@/components/shared/Filter/Filter";
+import NoResult from "@/components/shared/NoResult/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { TagFilters } from "@/constants/Filter";
 import { getAllTags } from "@/lib/actions/tag.action";
@@ -25,14 +26,19 @@ export default async function TagsPage() {
         {result!.tags.length > 0 ? (
           result!.tags.map((tag) => {
             return (
-              <div key={tag.text}>
+              <div key={tag._id}>
                 {" "}
                 <TagCard data={tag} />
               </div>
             );
           })
         ) : (
-          <div>تگ وجود ندارد</div>
+          <NoResult
+            title="تگ پیدا نشد"
+            description="بنظر میرسد که تگی وجود ندارد"
+            button_content="سوالی بپرس"
+            button_href="/ask-question"
+          />
         )}
       </section>
     </>
