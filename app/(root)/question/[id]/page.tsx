@@ -8,14 +8,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
+import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
+import Voting from "@/components/shared/Voting/Voting";
 
 export default async function QuestionDetailsPage({ params }: any) {
   const result = await getQuestionById({ questionId: params.id });
-  const { author, tags, title, content, createdAt, answers, views } =
-    result?.question;
+  const {
+    author,
+    tags,
+    title,
+    content,
+    createdAt,
+    answers,
+    views,
+    upvotes,
+    _id,
+    downvotes,
+  } = result?.question;
   const { userId } = auth();
   const mongoUser = await getUserById({ userId });
 
+  let hasUpvoted: boolean = false;
+
+  upvotes.forEach((user: any) => {
+    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+      hasUpvoted = true;
+    }
+  });
+  let hasDownvoted: boolean = false;
+  downvotes.forEach((user: any) => {
+    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+      hasDownvoted = true;
+    }
+  });
   return (
     <>
       <div className="flex w-full flex-col justify-start ">
@@ -35,7 +60,18 @@ export default async function QuestionDetailsPage({ params }: any) {
               {author.name}
             </div>
           </Link>
-          <div className="flex justify-end"> Voting</div>
+          <div className="flex justify-end">
+            <Voting
+              type="question"
+              ItemId={JSON.stringify(_id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvoteNumber={upvotes.length}
+              hasUpvoted={hasUpvoted!}
+              downvotes={downvotes.length}
+              hasDownvoted={hasDownvoted}
+              isSaved={mongoUser.saved.includes(_id)}
+            />
+          </div>
         </div>
         <div className="h2-semibold text-dark200_light900 mt-3.5 w-full text-right">
           {title}
@@ -72,6 +108,11 @@ export default async function QuestionDetailsPage({ params }: any) {
           );
         })}
       </div>
+
+      <AllAnswers
+        questionId={params.id}
+        userId={JSON.stringify(mongoUser._id)}
+      />
 
       <AnswersToQuestion
         questionId={params.id}

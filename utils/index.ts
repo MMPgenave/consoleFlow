@@ -10,17 +10,17 @@ export const timeStampCalculator = (value: string): string => {
   const diffInYears = Math.floor(diffInDays / 365);
 
   if (diffInYears > 0) {
-    return `${diffInYears} ${diffInYears === 1 ? "سال" : "سال"} قبل`;
+    return `${diffInYears} ${diffInYears === 1 ? "سال" : "سال"} پیش`;
   } else if (diffInMonths > 0) {
-    return `${diffInMonths} ${diffInMonths === 1 ? "ماه" : "ماه"} قبل`;
+    return `${diffInMonths} ${diffInMonths === 1 ? "ماه" : "ماه"} پیش`;
   } else if (diffInWeeks > 0) {
-    return `${diffInWeeks} ${diffInWeeks === 1 ? "هفته" : "هفته"} قبل`;
+    return `${diffInWeeks} ${diffInWeeks === 1 ? "هفته" : "هفته"} پیش`;
   } else if (diffInDays > 0) {
-    return `${diffInDays} ${diffInDays === 1 ? "روز" : "روز"} قبل`;
+    return `${diffInDays} ${diffInDays === 1 ? "روز" : "روز"} پیش`;
   } else if (diffInHours > 0) {
-    return `${diffInHours} ${diffInHours === 1 ? "ساعت" : "ساعت"} قبل`;
+    return `${diffInHours} ${diffInHours === 1 ? "ساعت" : "ساعت"} پیش`;
   } else if (diffInMinutes > 0) {
-    return `${diffInMinutes} ${diffInMinutes === 1 ? "دقیقه" : "دقیقه"} قبل`;
+    return `${diffInMinutes} ${diffInMinutes === 1 ? "دقیقه" : "دقیقه"} پیش`;
   } else {
     return "همین الان";
   }

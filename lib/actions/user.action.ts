@@ -81,3 +81,17 @@ export async function deleteUser(userData: DeleteUserParams) {
     console.error(error);
   }
 }
+
+export async function saveQuestion(params: any) {
+  try {
+    await connectToDataBase();
+    const { userId, questionId, path } = params;
+    await User.findByIdAndUpdate(
+      { _id: userId },
+      { $push: { saved: questionId } },
+    );
+    revalidatePath(path);
+  } catch (error) {
+    console.error(error);
+  }
+}

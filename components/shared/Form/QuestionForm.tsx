@@ -19,11 +19,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+// import { useTheme } from "@/context/ThemeProvider";
 const type: string = "create";
 interface Props {
   mongoUserId: string;
 }
 export function QuestionForm({ mongoUserId }: Props) {
+  // const { mode } = useTheme()!;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
@@ -154,6 +156,8 @@ export function QuestionForm({ mongoUserId }: Props) {
                       "alignright alignjustify | bullist numlist ",
                     content_style:
                       "body { font-family:'yekan-bakh'; font-size:14px; direction: rtl; }",
+                    // skin: mode === "dark" ? "oxide-dark" : "dark",
+                    // content_css: mode === "dark" ? "dark" : "light",
                   }}
                 />
               </FormControl>

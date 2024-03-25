@@ -8,6 +8,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
 
@@ -77,10 +78,78 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
         path: "author",
         model: User,
         select: "_id clerkId name picture",
+      })
+      .populate({
+        path: "upvotes",
+        model: User,
+        select: "_id clerkId name picture",
       });
 
     return { question };
   } catch (error) {
     console.error(`error in getQuestionById server action is :${error}`);
+  }
+}
+export async function upvoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDataBase();
+
+    const { questionId, userId, path, hasupVoted, hasdownVoted } = params;
+    let updateQuery = {};
+    if (hasupVoted) {
+      updateQuery = { $pull: { upvotes: userId } };
+    } else if (hasdownVoted) {
+      updateQuery = {
+        $pull: { downvotes: userId },
+        $push: { upvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { upvotes: userId } };
+    }
+    const question = await Question.findByIdAndUpdate(
+      { _id: questionId },
+      updateQuery,
+      { new: true },
+    );
+    if (!question) {
+      throw new Error("question doesnt exist");
+    }
+
+    // increase author reputation by +10 for upvoting a question
+    revalidatePath(path);
+  } catch (error) {
+    console.error(`error in upvoteQuestion server action is :${error}`);
+  }
+}
+
+export async function downvoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectToDataBase();
+
+    const { questionId, userId, path, hasupVoted, hasdownVoted } = params;
+    let updateQuery = {};
+    if (hasdownVoted) {
+      updateQuery = { $pull: { downvotes: userId } };
+    } else if (hasupVoted) {
+      updateQuery = {
+        $pull: { upvotes: userId },
+        $push: { downvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downvotes: userId } };
+    }
+    const question = await Question.findByIdAndUpdate(
+      { _id: questionId },
+      updateQuery,
+      { new: true },
+    );
+    if (!question) {
+      throw new Error("question doesnt exist");
+    }
+
+    // increase author reputation by +10 for upvoting a question
+    revalidatePath(path);
+  } catch (error) {
+    console.error(`error in upvoteQuestion server action is :${error}`);
   }
 }

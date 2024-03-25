@@ -1,0 +1,126 @@
+"use client";
+import {
+  downvoteQuestion,
+  upvoteQuestion,
+} from "@/lib/actions/question.action";
+import Image from "next/image";
+import React from "react";
+import { usePathname } from "next/navigation";
+import { saveQuestion } from "@/lib/actions/user.action";
+
+interface Prop {
+  type: string;
+  ItemId: string;
+  userId: string;
+  upvoteNumber: string;
+  hasUpvoted: boolean;
+  downvotes: number;
+  hasDownvoted: boolean;
+  isSaved?: boolean;
+}
+const Voting = ({
+  ItemId,
+  userId,
+  upvoteNumber,
+  type,
+  hasUpvoted,
+  downvotes,
+  hasDownvoted,
+  isSaved,
+}: Prop) => {
+  const path = usePathname();
+  async function voteHandler(action: string) {
+    try {
+      if (action === "upvote") {
+        await upvoteQuestion({
+          questionId: JSON.parse(ItemId),
+          userId: JSON.parse(userId),
+          path,
+          hasupVoted: hasUpvoted,
+          hasdownVoted: hasDownvoted,
+        });
+      }
+      if (action === "downvote") {
+        await downvoteQuestion({
+          questionId: JSON.parse(ItemId),
+          userId: JSON.parse(userId),
+          path,
+          hasupVoted: hasUpvoted,
+          hasdownVoted: hasDownvoted,
+        });
+      }
+    } catch (error) {
+      console.error(`error in upvote function is :${error}`);
+    }
+  }
+  async function saveThisQuestion() {
+    try {
+      await saveQuestion({
+        questionId: JSON.parse(ItemId),
+        userId: JSON.parse(userId),
+        path,
+      });
+    } catch (error) {
+      console.error(`error in saveThisQuestion function is :${error}`);
+    }
+  }
+  return (
+    <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2.5">
+        <Image
+          src={
+            hasUpvoted
+              ? "/assets/icons/upvoted.svg"
+              : "/assets/icons/upvote.svg"
+          }
+          width={18}
+          height={18}
+          alt="upvote"
+          className="cursor-pointer"
+          onClick={() => voteHandler("upvote")}
+        />
+        <div className=" background-light700_dark400 flex min-w-[18px] items-center justify-center rounded-sm p-1">
+          <p className="subtle-medium text-dark400_light900">{upvoteNumber}</p>
+        </div>
+      </div>
+      <div className="flex items-center gap-1">
+        <Image
+          src={
+            hasDownvoted
+              ? "/assets/icons/downvoted.svg"
+              : "/assets/icons/downvote.svg"
+          }
+          width={18}
+          height={18}
+          alt="down-vote"
+          className="cursor-pointer"
+          onClick={() => voteHandler("downvote")}
+        />
+        <div className=" background-light700_dark400 flex min-w-[18px] items-center justify-center rounded-sm p-1">
+          <p className="subtle-medium text-dark400_light900"> {downvotes}</p>
+        </div>
+      </div>
+      <div onClick={() => saveThisQuestion()}>
+        {isSaved ? (
+          <Image
+            src={"/assets/icons/star-filled.svg"}
+            width={18}
+            height={18}
+            alt="star-red"
+            className="cursor-pointer"
+          />
+        ) : (
+          <Image
+            src={"/assets/icons/star-red.svg"}
+            width={18}
+            height={18}
+            alt="star-red"
+            className="cursor-pointer"
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Voting;

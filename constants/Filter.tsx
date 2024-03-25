@@ -1,8 +1,8 @@
 export const AnswerFilters = [
-  { name: "Highest Upvotes", value: "highestUpvotes" },
-  { name: "Lowest Upvotes", value: "lowestUpvotes" },
-  { name: "Most Recent", value: "recent" },
-  { name: "Oldest", value: "old" },
+  { name: "بالاترین رای ", value: "highestUpvotes" },
+  { name: "پایین ترین رای  ", value: "lowestUpvotes" },
+  { name: "تازه ترین", value: "recent" },
+  { name: "قدیمی ترین", value: "old" },
 ];
 export const UserFilters = [
   { name: "کاربران جدید", value: "new_users" },
