@@ -6,13 +6,11 @@ import { getUserById } from "@/lib/actions/user.action";
 
 const AskQuestion = async () => {
   const { userId } = auth();
-  // const userId = "clerk123";
   if (!userId) {
     redirect("/sign-in");
   }
 
   const mongoUser = await getUserById({ userId });
-  console.log(`mongoUser is :${mongoUser}`);
   return (
     <div className="">
       <h1 className="text-dark100_light900 h1-bold">سوالی بپرس</h1>

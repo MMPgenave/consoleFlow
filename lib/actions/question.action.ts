@@ -57,6 +57,10 @@ export async function getAllQuestions(params: GetQuestionsParams) {
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
+    // calculate each questions answers
+    // for (let i=0;i<questions.length;i++){
+    //     if (questions[i]._id===)
+    // }
     return { questions };
   } catch (error) {
     console.error(`error in getAllQuestions server action is :${error}`);
@@ -68,8 +72,12 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
     connectToDataBase();
     const { questionId } = params;
     const question = await Question.findById({ _id: questionId })
-      .populate({ path: "tags", model: Tag })
-      .populate({ path: "author", model: User });
+      .populate({ path: "tags", model: Tag, select: "_id text" })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id clerkId name picture",
+      });
 
     return { question };
   } catch (error) {
