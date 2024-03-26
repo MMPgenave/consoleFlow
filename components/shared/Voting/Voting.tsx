@@ -6,7 +6,8 @@ import {
 import Image from "next/image";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { saveQuestion } from "@/lib/actions/user.action";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
+import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 
 interface Prop {
   type: string;
@@ -17,6 +18,7 @@ interface Prop {
   downvotes: number;
   hasDownvoted: boolean;
   isSaved?: boolean;
+  showSaveIcon: boolean;
 }
 const Voting = ({
   ItemId,
@@ -27,27 +29,54 @@ const Voting = ({
   downvotes,
   hasDownvoted,
   isSaved,
+  showSaveIcon,
 }: Prop) => {
   const path = usePathname();
   async function voteHandler(action: string) {
     try {
+      if (!userId) {
+        return;
+      }
       if (action === "upvote") {
-        await upvoteQuestion({
-          questionId: JSON.parse(ItemId),
-          userId: JSON.parse(userId),
-          path,
-          hasupVoted: hasUpvoted,
-          hasdownVoted: hasDownvoted,
-        });
+        if (type === "Question") {
+          await upvoteQuestion({
+            questionId: JSON.parse(ItemId),
+            userId: JSON.parse(userId),
+            path,
+            hasupVoted: hasUpvoted,
+            hasdownVoted: hasDownvoted,
+          });
+        } else if (type === "Answer") {
+          await upvoteAnswer({
+            answerId: JSON.parse(ItemId),
+            userId: JSON.parse(userId),
+            path,
+            hasupVoted: hasUpvoted,
+            hasdownVoted: hasDownvoted,
+          });
+        }
+        // show a toast
+        return;
       }
       if (action === "downvote") {
-        await downvoteQuestion({
-          questionId: JSON.parse(ItemId),
-          userId: JSON.parse(userId),
-          path,
-          hasupVoted: hasUpvoted,
-          hasdownVoted: hasDownvoted,
-        });
+        if (type === "Question") {
+          await downvoteQuestion({
+            questionId: JSON.parse(ItemId),
+            userId: JSON.parse(userId),
+            path,
+            hasupVoted: hasUpvoted,
+            hasdownVoted: hasDownvoted,
+          });
+        } else if (type === "Answer") {
+          await downvoteAnswer({
+            answerId: JSON.parse(ItemId),
+            userId: JSON.parse(userId),
+            path,
+            hasupVoted: hasUpvoted,
+            hasdownVoted: hasDownvoted,
+          });
+        }
+        // show a toast
       }
     } catch (error) {
       console.error(`error in upvote function is :${error}`);
@@ -55,7 +84,7 @@ const Voting = ({
   }
   async function saveThisQuestion() {
     try {
-      await saveQuestion({
+      await toggleSaveQuestion({
         questionId: JSON.parse(ItemId),
         userId: JSON.parse(userId),
         path,
@@ -100,25 +129,27 @@ const Voting = ({
           <p className="subtle-medium text-dark400_light900"> {downvotes}</p>
         </div>
       </div>
-      <div onClick={() => saveThisQuestion()}>
-        {isSaved ? (
-          <Image
-            src={"/assets/icons/star-filled.svg"}
-            width={18}
-            height={18}
-            alt="star-red"
-            className="cursor-pointer"
-          />
-        ) : (
-          <Image
-            src={"/assets/icons/star-red.svg"}
-            width={18}
-            height={18}
-            alt="star-red"
-            className="cursor-pointer"
-          />
-        )}
-      </div>
+      {showSaveIcon && (
+        <div onClick={() => saveThisQuestion()}>
+          {isSaved ? (
+            <Image
+              src={"/assets/icons/star-filled.svg"}
+              width={18}
+              height={18}
+              alt="star-red"
+              className="cursor-pointer"
+            />
+          ) : (
+            <Image
+              src={"/assets/icons/star-red.svg"}
+              width={18}
+              height={18}
+              alt="star-red"
+              className="cursor-pointer"
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

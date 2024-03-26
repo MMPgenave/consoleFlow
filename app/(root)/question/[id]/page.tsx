@@ -62,13 +62,14 @@ export default async function QuestionDetailsPage({ params }: any) {
           </Link>
           <div className="flex justify-end">
             <Voting
-              type="question"
+              type="Question"
               ItemId={JSON.stringify(_id)}
               userId={JSON.stringify(mongoUser._id)}
               upvoteNumber={upvotes.length}
               hasUpvoted={hasUpvoted!}
               downvotes={downvotes.length}
               hasDownvoted={hasDownvoted}
+              showSaveIcon={true}
               isSaved={mongoUser.saved.includes(_id)}
             />
           </div>

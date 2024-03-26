@@ -2,9 +2,28 @@ import { timeStampCalculator } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
 import ParseHTML from "@/components/shared/ParseHTML/ParseHTML";
+import Voting from "../Voting/Voting";
+import { auth } from "@clerk/nextjs";
+import { getUserById } from "@/lib/actions/user.action";
 
-export default function AnswerCard({ answer }: any) {
-  const { author, content, createdAt } = answer;
+export default async function AnswerCard({ answer }: any) {
+  const { author, content, createdAt, _id, upvotes, downvotes } = answer;
+  const { userId } = auth();
+  const mongoUser = await getUserById({ userId });
+
+  let hasUpvoted: boolean = false;
+
+  upvotes.forEach((user: any) => {
+    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+      hasUpvoted = true;
+    }
+  });
+  let hasDownvoted: boolean = false;
+  downvotes.forEach((user: any) => {
+    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+      hasDownvoted = true;
+    }
+  });
 
   return (
     <div className="">
@@ -35,7 +54,18 @@ export default function AnswerCard({ answer }: any) {
           </div>
         </Link>
 
-        <div className="">vote</div>
+        <div className="">
+          <Voting
+            type="Answer"
+            ItemId={JSON.stringify(_id)}
+            userId={JSON.stringify(mongoUser._id)}
+            upvoteNumber={upvotes.length}
+            hasUpvoted={hasUpvoted!}
+            downvotes={downvotes.length}
+            hasDownvoted={hasDownvoted}
+            showSaveIcon={false}
+          />
+        </div>
       </div>
 
       <ParseHTML data={content} />

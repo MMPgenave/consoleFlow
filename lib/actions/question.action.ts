@@ -150,6 +150,6 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     // increase author reputation by +10 for upvoting a question
     revalidatePath(path);
   } catch (error) {
-    console.error(`error in upvoteQuestion server action is :${error}`);
+    console.error(`error in downvoteQuestion server action is :${error}`);
   }
 }

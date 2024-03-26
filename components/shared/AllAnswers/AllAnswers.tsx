@@ -2,6 +2,7 @@ import Filter from "@/components/shared/Filter/Filter";
 import { AnswerFilters } from "@/constants/Filter";
 import AnswerCard from "@/components/shared/Card/AnswersCard";
 import { getAllAnswers } from "@/lib/actions/answer.action";
+import NoResult from "../NoResult/NoResult";
 
 interface Props {
   questionId: string;
@@ -42,7 +43,12 @@ export default async function AllAnswers({
           })}
         </div>
       ) : (
-        "no answers yet"
+        <NoResult
+          title="هنوز به این سوال جواب داده نشده است."
+          button_content="در قسمت پایین پاسخت رو بنویس"
+          button_href=""
+          description="هنوز این سوال جواب داده نشده. اگر این سوال رو جواب بدی 10 امتیاز میگیری"
+        />
       )}
     </div>
   );
