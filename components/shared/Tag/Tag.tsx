@@ -10,7 +10,7 @@ const Tag = ({ text, score, showScore, url }: TagProps) => {
   return (
     <div className="flex items-center justify-between ">
       <Link
-        href={url}
+        href={`/tags/${url}`}
         className=" background-light800_dark300 text-light400_light500
          inline-flex items-center rounded-md border border-none border-transparent 
          bg-slate-900 px-4 py-2 text-xs font-semibold uppercase shadow transition-colors

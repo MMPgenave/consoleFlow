@@ -4,10 +4,11 @@ import {
   upvoteQuestion,
 } from "@/lib/actions/question.action";
 import Image from "next/image";
-import React from "react";
-import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 
 interface Prop {
   type: string;
@@ -32,6 +33,17 @@ const Voting = ({
   showSaveIcon,
 }: Prop) => {
   const path = usePathname();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (type === "Question") {
+      viewQuestion({
+        userId: userId ? JSON.parse(userId) : undefined,
+        questionId: JSON.parse(ItemId),
+      });
+      console.log("question viewed");
+    }
+  }, [path, router, userId, ItemId]);
   async function voteHandler(action: string) {
     try {
       if (!userId) {

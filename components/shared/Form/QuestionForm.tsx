@@ -26,6 +26,7 @@ interface Props {
 }
 export function QuestionForm({ mongoUserId }: Props) {
   // const { mode } = useTheme()!;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathName = usePathname();

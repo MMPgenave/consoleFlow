@@ -10,8 +10,8 @@ interface PropType {
     title: string;
     tags: { _id: string; text: string }[];
     author: { id: number; name: string; picture: string };
-    upvotes: [];
-    downvotes: number;
+    upvotes: string[];
+    downvotes: string[];
     answers: Array<object>;
     views: number;
     createdAt: string;
@@ -40,7 +40,7 @@ const QuestionCard = ({ question }: PropType) => {
       <div className="mt-3.5 flex flex-wrap gap-2">
         {question.tags.map((tag) => {
           return (
-            <Tag text={tag.text} showScore={false} url="/" key={tag._id} />
+            <Tag text={tag.text} showScore={false} url={tag._id} key={tag._id} />
           );
         })}
       </div>

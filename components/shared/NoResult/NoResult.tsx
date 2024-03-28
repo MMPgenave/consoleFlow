@@ -33,7 +33,9 @@ const NoResult = ({
         className="hidden dark:flex"
       />
       <h1 className="h2-bold text-dark200_light900 ">{title}</h1>
-      <p className="body-regular text-dark500_light700">{description}</p>
+      <p className="body-regular text-dark500_light700 text-center">
+        {description}
+      </p>
       <Link
         href={button_href}
         className="primary-gradient  paragraph-medium rounded-md px-4 py-3 text-light-900 hover:opacity-80"

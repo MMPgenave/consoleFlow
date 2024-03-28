@@ -32,7 +32,7 @@ export async function createQuestion(params: CreateQuestionParams) {
         {
           $setOnInsert: { text: tag },
           $push: {
-            question: question._id,
+            inQuestionsUsed: question._id,
           },
         },
         { upsert: true, new: true },
@@ -83,6 +83,9 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
         path: "upvotes",
         model: User,
         select: "_id clerkId name picture",
+      })
+      .populate({
+        path: "views",
       });
 
     return { question };

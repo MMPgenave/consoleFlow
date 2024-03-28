@@ -10,11 +10,11 @@ export const UserFilters = [
   { name: "مشارکت کنندگان برتر", value: "top_contributors" },
 ];
 export const QuestionFilters = [
-  { name: "Most Recent", value: "most_recent" },
-  { name: "Oldest", value: "oldest" },
-  { name: "Most Voted", value: "most_voted" },
-  { name: "Most Viewed", value: "most_viewed" },
-  { name: "Most Answered", value: "most_answered" },
+  { name: "تازه ترین", value: "most_recent" },
+  { name: "قدیمی ترین", value: "oldest" },
+  { name: "بیشترین رای داده شده ", value: "most_voted" },
+  { name: "پربیننده ترین", value: "most_viewed" },
+  { name: "بیشترین پاسخ داده شده", value: "most_answered" },
 ];
 export const TagFilters = [
   { name: "محبوب", value: "popular" },
