@@ -119,6 +119,7 @@ export async function getAllQuestionCollection(
 ) {
   try {
     await connectToDataBase();
+    // eslint-disable-next-line no-unused-vars
     const { clerkId, page = 1, pageSize = 10, searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
