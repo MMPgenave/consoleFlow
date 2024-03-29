@@ -10,8 +10,9 @@ import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
 import Voting from "@/components/shared/Voting/Voting";
+import { URLProps } from "@/types";
 
-export default async function QuestionDetailsPage({ params }: any) {
+export default async function QuestionDetailsPage({ params }: URLProps) {
   const result = await getQuestionById({ questionId: params.id });
   const {
     author,

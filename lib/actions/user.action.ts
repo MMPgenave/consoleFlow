@@ -13,6 +13,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { Question } from "@/database/question.model";
 import { Tag } from "@/database/tag.model";
+import { Answer } from "@/database/answer.model";
 
 export async function getUserById(params: any) {
   try {
@@ -141,6 +142,34 @@ export async function getAllQuestionCollection(
       throw new Error("User not found");
     }
     return user.saved;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getUserInfo(params: any) {
+  try {
+    connectToDataBase();
+    const { userId } = params;
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      console.log(`No user found with this clerkId:${userId}`);
+      return;
+    }
+    const { _id } = user;
+    const QuestionsAskedByThisUser = await Question.find({
+      author: _id,
+    });
+
+    const AnsweredQuestionsByThisUser = await Answer.find({
+      autor: _id,
+    });
+
+    return {
+      user,
+      NumberOfQuestionAskedByThisUser: QuestionsAskedByThisUser.length,
+      NumberOfAnsweredQuestionByThisUser: AnsweredQuestionsByThisUser.length,
+    };
   } catch (error) {
     console.error(error);
   }

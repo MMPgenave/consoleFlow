@@ -9,7 +9,7 @@ interface PropType {
     _id: string;
     title: string;
     tags: { _id: string; text: string }[];
-    author: { id: number; name: string; picture: string };
+    author: { _id: string; name: string; picture: string; clerkId: string };
     upvotes: string[];
     downvotes: string[];
     answers: Array<object>;
@@ -40,7 +40,12 @@ const QuestionCard = ({ question }: PropType) => {
       <div className="mt-3.5 flex flex-wrap gap-2">
         {question.tags.map((tag) => {
           return (
-            <Tag text={tag.text} showScore={false} url={tag._id} key={tag._id} />
+            <Tag
+              text={tag.text}
+              showScore={false}
+              url={tag._id}
+              key={tag._id}
+            />
           );
         })}
       </div>
@@ -52,7 +57,7 @@ const QuestionCard = ({ question }: PropType) => {
           value={timeStampCalculator(question.createdAt)}
           isAuthor={true}
           textClasses="body-medium text-dark400_light700"
-          href="/"
+          href={`/profile/${question.author.clerkId}`}
         />
         <Metric
           imgUrl="assets/icons/like.svg"

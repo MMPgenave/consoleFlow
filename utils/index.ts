@@ -37,3 +37,24 @@ export function formatNumber(num: number): string {
   }
   return shortValue + suffixes[suffixNum];
 }
+export function getJoinMonthAndYear(joinDate: Date): string {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const month = monthNames[joinDate.getMonth()];
+  const year = joinDate.getFullYear();
+
+  return `${month}, ${year}`;
+}

@@ -4,9 +4,12 @@ import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedOut, useAuth } from "@clerk/nextjs";
+
 const RightSidebar = () => {
   const path = usePathname();
+  const { userId } = useAuth();
+
   return (
     <div
       className="custom-scrollbar background-light900_dark200 light-border  sticky right-0 top-0 hidden 
@@ -14,7 +17,16 @@ const RightSidebar = () => {
      shadow-light-200 dark:shadow-none  max-lg:w-20 sm:flex lg:w-[266px]"
     >
       {sidebarLinks.map((link) => {
-        const { imgURL, route, label } = link;
+        let { imgURL, route, label } = link;
+        if (route === "/profile") {
+          if (userId) {
+            route = `${route}/${userId}`;
+          } else {
+            return null;
+          }
+        }
+        console.log(`path is:${path}
+        route is :${route}`);
         return (
           <Link
             href={route}

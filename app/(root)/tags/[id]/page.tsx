@@ -2,9 +2,10 @@ import QuestionCard from "@/components/shared/Card/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
+import { URLProps } from "@/types";
 import React from "react";
 
-const TagDetailsPage = async ({ params, searchParams }: any) => {
+const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: 1,
