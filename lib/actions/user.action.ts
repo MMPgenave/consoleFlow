@@ -9,6 +9,7 @@ import {
   ToggleSaveQuestionParams,
   UpdateUserParams,
   GetSavedQuestionsParams,
+  GetUserStatsParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import { Question } from "@/database/question.model";
@@ -159,18 +160,54 @@ export async function getUserInfo(params: any) {
     const { _id } = user;
     const QuestionsAskedByThisUser = await Question.find({
       author: _id,
-    });
+    }).populate({ path: "tags", model: Tag });
 
     const AnsweredQuestionsByThisUser = await Answer.find({
-      autor: _id,
+      author: _id,
     });
-
     return {
+      questions: QuestionsAskedByThisUser,
       user,
       NumberOfQuestionAskedByThisUser: QuestionsAskedByThisUser.length,
       NumberOfAnsweredQuestionByThisUser: AnsweredQuestionsByThisUser.length,
     };
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getUserQuestions(params: GetUserStatsParams) {
+  try {
+    connectToDataBase();
+    const { userId } = params;
+    const questions = await Question.find({ author: userId })
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User })
+      .sort({ createdAt: -1, views: -1, upvotes: -1 });
+
+    return { questions };
+  } catch (error) {
+    console.error(`error in getUserQuestions server action is :${error}`);
+  }
+}
+export async function getUserAnsweredQuestions(params: GetUserStatsParams) {
+  try {
+    connectToDataBase();
+    const { userId } = params;
+    const answers = await Answer.find({
+      author: userId,
+    })
+      .populate({ path: "author", model: User })
+      .populate({
+        path: "question",
+        model: Question,
+        populate: [{ path: "author", model: User }],
+      })
+      .sort({ upvotes: -1 });
+    return { answers };
+  } catch (error) {
+    console.error(
+      `error in getUserAnsweredQuestion server action is :${error}`,
+    );
   }
 }

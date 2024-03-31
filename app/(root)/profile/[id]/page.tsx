@@ -4,12 +4,33 @@ import Image from "next/image";
 import { getJoinMonthAndYear } from "@/utils";
 import { URLProps } from "@/types";
 import { SignedIn, auth } from "@clerk/nextjs";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProfileLink from "@/components/shared/ProfileLink/ProfileLink";
+import Stats from "@/components/shared/Stats/Stats";
+import QuestionTab from "@/components/shared/QuestionTab/QuestionTab";
+import AnswerTab from "@/components/shared/AnswerTab/AnswerTab";
+import Tag from "@/components/shared/Tag/Tag";
+import { ITag } from "@/database/tag.model";
 const ProfilePage = async ({ params, searchParams }: URLProps) => {
   const result = await getUserInfo({ userId: params.id });
   const { userId: clerkId } = auth();
+
+  // extract all tags that this user used
+  const UserTags: ITag[] = [];
+  if (result!.questions.length) {
+    const { questions } = result!;
+
+    // add all question's tags to the "UserTags" variable
+    for (let i = 0; i < questions.length; i++) {
+      questions[i].tags.forEach((tag: any) => {
+        if (!UserTags.includes(tag.text)) {
+          UserTags.push(tag);
+        }
+      });
+    }
+  }
 
   return (
     <>
@@ -30,20 +51,28 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
               {result!.user.username}@
             </h4>
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
-              {result?.user.location && <div>location</div>}
-              <div className="next flex items-center gap-3">
-                <Image
-                  src={"/assets/icons/calendar.svg"}
-                  width={18}
-                  height={18}
-                  alt="calendar"
+              {result?.user.portfolioWebsite && (
+                <ProfileLink
+                  imgUrl="/assets/icons/link.svg"
+                  href={result?.user.portfolioWebsite}
+                  title="پورتفولیو"
                 />
-                <div className="flex gap-1">
-                  <div>{getJoinMonthAndYear(result!.user.joinedAt)}</div>
-                  <div>ملحق شد</div>
-                </div>
-              </div>
-              {result?.user.bio && <p>{result?.user.bio}</p>}
+              )}
+              {result?.user.location && (
+                <ProfileLink
+                  imgUrl="/assets/icons/location.svg"
+                  title={result?.user.location}
+                />
+              )}
+              <ProfileLink
+                imgUrl="/assets/icons/calendar.svg"
+                title={`${getJoinMonthAndYear(result!.user.joinedAt)} ملحق شد`}
+              />
+              {result?.user.bio && (
+                <p className="paragraph-regular text-dark400_light800 mt-8">
+                  {result?.user.bio}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -62,9 +91,16 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
           </SignedIn>
         </div>
       </div>
-      وضعیت
-      <div className="mt-10 flex gap-10">
-        <Tabs dir="rtl" defaultValue="پست های برتر" className="flex-1">
+      <Stats
+        NumberOfQuestion={result!.NumberOfQuestionAskedByThisUser}
+        NumberOfAnswer={result!.NumberOfAnsweredQuestionByThisUser}
+      />
+      <div className="mt-10 flex items-start gap-10 max-sm:flex-col">
+        <Tabs
+          dir="rtl"
+          defaultValue="پست های برتر"
+          className="w-[60%]   max-sm:w-full"
+        >
           <TabsList className="background-light800_dark400 min-h-[42px] p-1 ">
             <TabsTrigger
               value="top-posts"
@@ -80,10 +116,34 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts">
-            Make changes to your account here.
+            <QuestionTab userId={result!.user._id} />
           </TabsContent>
-          <TabsContent value="answers">Change your password here.</TabsContent>
+          <TabsContent value="answers">
+            <AnswerTab userId={result!.user._id} />
+          </TabsContent>
         </Tabs>
+        <div className="flex-1">
+          <div className="h3-bold text-dark200_light900">تگ های برتر</div>
+          <div className=" mt-4">
+            {UserTags.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {UserTags.map((tag: ITag) => {
+                  return (
+                    <Tag
+                      key={tag._id}
+                      text={tag.text}
+                      showScore={true}
+                      score={2}
+                      url={`/${tag._id}`}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div>No Tags</div>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );

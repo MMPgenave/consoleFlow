@@ -25,8 +25,7 @@ const RightSidebar = () => {
             return null;
           }
         }
-        console.log(`path is:${path}
-        route is :${route}`);
+
         return (
           <Link
             href={route}
