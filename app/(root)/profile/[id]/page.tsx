@@ -5,7 +5,6 @@ import { getJoinMonthAndYear } from "@/utils";
 import { URLProps } from "@/types";
 import { SignedIn, auth } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/shared/ProfileLink/ProfileLink";
 import Stats from "@/components/shared/Stats/Stats";
@@ -36,43 +35,22 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 sm:flex-row">
-          <Image
-            src={result!.user.picture}
-            width={140}
-            height={140}
-            alt="user"
-            className="rounded-full object-cover"
-          />
+          <Image src={result!.user.picture} width={140} height={140} alt="user" className="rounded-full object-cover" />
           <div className="mt-3">
-            <h2 className="h2-bold   text-dark100_light900">
-              {result!.user.name}
-            </h2>
-            <h4 className="paragraph-regular text-dark200_light800">
-              {result!.user.username}@
-            </h4>
+            <h2 className="h2-bold   text-dark100_light900">{result!.user.name}</h2>
+            <h4 className="paragraph-regular text-dark200_light800">{result!.user.username}@</h4>
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
               {result?.user.portfolioWebsite && (
-                <ProfileLink
-                  imgUrl="/assets/icons/link.svg"
-                  href={result?.user.portfolioWebsite}
-                  title="پورتفولیو"
-                />
+                <ProfileLink imgUrl="/assets/icons/link.svg" href={result?.user.portfolioWebsite} title="پورتفولیو" />
               )}
               {result?.user.location && (
-                <ProfileLink
-                  imgUrl="/assets/icons/location.svg"
-                  title={result?.user.location}
-                />
+                <ProfileLink imgUrl="/assets/icons/location.svg" title={result?.user.location} />
               )}
               <ProfileLink
                 imgUrl="/assets/icons/calendar.svg"
                 title={`${getJoinMonthAndYear(result!.user.joinedAt)} ملحق شد`}
               />
-              {result?.user.bio && (
-                <p className="paragraph-regular text-dark400_light800 mt-8">
-                  {result?.user.bio}
-                </p>
-              )}
+              {result?.user.bio && <p className="paragraph-regular text-dark400_light800 mt-8">{result?.user.bio}</p>}
             </div>
           </div>
         </div>
@@ -80,12 +58,12 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
           <SignedIn>
             {clerkId === result?.user.clerkId && (
               <Link href="/profile/edit">
-                <Button
-                  className="paragraph-medium text-dark300_light900 min-h-[46px] min-w-[176px] 
+                <div
+                  className="paragraph-medium text-dark300_light900 flex min-h-[46px] min-w-[176px] justify-center rounded-lg bg-primary-100 
                     px-4 py-3 "
                 >
                   ویرایش پروفایل
-                </Button>
+                </div>
               </Link>
             )}
           </SignedIn>
@@ -96,31 +74,17 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
         NumberOfAnswer={result!.NumberOfAnsweredQuestionByThisUser}
       />
       <div className="mt-10 flex items-start gap-10 max-sm:flex-col">
-        <Tabs
-          dir="rtl"
-          defaultValue="پست های برتر"
-          className="w-[60%]   max-sm:w-full"
-        >
+        <Tabs dir="rtl" defaultValue="پست های برتر" className="w-[60%]   max-sm:w-full">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1 ">
-            <TabsTrigger
-              value="top-posts"
-              className=" bg-orange-50 text-orange-600"
-            >
+            <TabsTrigger value="top-posts" className=" bg-orange-50 text-orange-600">
               پست های برتر
             </TabsTrigger>
-            <TabsTrigger
-              value="answers"
-              className=" bg-orange-50 text-orange-600"
-            >
+            <TabsTrigger value="answers" className=" bg-orange-50 text-orange-600">
               پاسخ ها
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts">
-            <QuestionTab
-              userId={result!.user._id}
-              clerkId={clerkId!}
-              searchParams={searchParams}
-            />
+            <QuestionTab userId={result!.user._id} clerkId={clerkId!} searchParams={searchParams} />
           </TabsContent>
           <TabsContent value="answers">
             <AnswerTab
@@ -137,15 +101,7 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             {UserTags.length > 0 ? (
               <div className="flex flex-col gap-3">
                 {UserTags.map((tag: ITag) => {
-                  return (
-                    <Tag
-                      key={tag._id}
-                      text={tag.text}
-                      showScore={true}
-                      score={2}
-                      url={`/${tag._id}`}
-                    />
-                  );
+                  return <Tag key={tag._id} text={tag.text} showScore={true} score={2} url={`/${tag._id}`} />;
                 })}
               </div>
             ) : (

@@ -32,3 +32,39 @@ export const answerSchema = z.object({
     message: " توضیحات باید حداقل 50 کاراکتر باشد. ",
   }),
 });
+
+export const editProfileSchema = z.object({
+  fullName: z
+    .string()
+    .min(5, {
+      message: " اسم باید حداقل 5 کاراکتر باشد. ",
+    })
+    .max(50, {
+      message: " اسم باید حداکثر 50 کاراکتر باشد. ",
+    }),
+  userName: z
+    .string()
+    .min(5, {
+      message: " اسم کاربری باید حداقل 5 کاراکتر باشد. ",
+    })
+    .max(50, {
+      message: " اسم کاربری باید حداکثر 50 کاراکتر باشد. ",
+    }),
+  portfolioLink: z.string().url(),
+  location: z
+    .string()
+    .min(5, {
+      message: " لوکیشن باید حداقل 5 کاراکتر باشد. ",
+    })
+    .max(50, {
+      message: " لوکیشن باید حداکثر 50 کاراکتر باشد. ",
+    }),
+  bio: z
+    .string()
+    .min(50, {
+      message: " بیوگرافی باید حداقل 50 کاراکتر باشد. ",
+    })
+    .max(200, {
+      message: " بیوگرافی باید حداکثر 200 کاراکتر باشد. ",
+    }),
+});

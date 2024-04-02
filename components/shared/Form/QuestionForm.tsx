@@ -59,6 +59,7 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
         router.push(`/question/${QuestionToBeEdited._id}`);
       }
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -175,8 +176,8 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
               </FormLabel>
               <FormControl>
                 <>
-                  <Input 
-                  disabled={type==='edit'}
+                  <Input
+                    disabled={type === "edit"}
                     onKeyDown={(e) => onkeydownHandler(e, field)}
                     placeholder=" چند تا تگ اضافه کنید"
                     className="no-focus paragraph-regular background-light900_dark300
@@ -193,14 +194,16 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
                               className=" subtle-medium background-light800_dark300  flex items-center gap-2 rounded-md border-none
                                  px-4 py-2 capitalize text-light-800 dark:text-dark-400"
                             >
-                             {type==='create' &&  <Image
-                                src="/assets/icons/close.svg"
-                                width={15}
-                                height={15}
-                                alt="close-btn"
-                                className="dark:invert "
-                                onClick={() => removeTagHandler(field, tag)}
-                              />}
+                              {type === "create" && (
+                                <Image
+                                  src="/assets/icons/close.svg"
+                                  width={15}
+                                  height={15}
+                                  alt="close-btn"
+                                  className="dark:invert "
+                                  onClick={() => removeTagHandler(field, tag)}
+                                />
+                              )}
                               <div className="text-dark400_light900">{tag}</div>
                             </div>
                           );

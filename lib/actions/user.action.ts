@@ -10,13 +10,14 @@ import {
   UpdateUserParams,
   GetSavedQuestionsParams,
   GetUserStatsParams,
+  GetUserByIdParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import { Question } from "@/database/question.model";
 import { Tag } from "@/database/tag.model";
 import { Answer } from "@/database/answer.model";
 
-export async function getUserById(params: any) {
+export async function getUserById(params: GetUserByIdParams) {
   try {
     await connectToDataBase();
     const { userId } = params;
