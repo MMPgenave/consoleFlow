@@ -2,6 +2,9 @@ import { formatNumber, timeStampCalculator } from "@/utils";
 import Link from "next/link";
 import React from "react";
 import Metric from "../Metric/Metric";
+import { SignedIn } from "@clerk/nextjs";
+import EditeDeleteAction from "../EditeDeleteAction/EditeDeleteAction";
+// import { IAnswer } from "@/database/answer.model";
 interface PropType {
   question: {
     _id: string;
@@ -14,9 +17,16 @@ interface PropType {
     createdAt: string;
   };
   answerUpvotes: number;
+  clerkId?: string;
+  answer: any;
 }
 
-const QuestionCardForAnswersTab = ({ question, answerUpvotes }: PropType) => {
+const QuestionCardForAnswersTab = ({
+  question,
+  answerUpvotes,
+  clerkId,
+  answer,
+}: PropType) => {
   console.log(question.author.name);
   return (
     <div
@@ -27,14 +37,24 @@ const QuestionCardForAnswersTab = ({ question, answerUpvotes }: PropType) => {
         <div className="small-regular text-dark400_light800 sm:hidden">
           {timeStampCalculator(question.createdAt)}
         </div>
-        <Link
-          href={`/question/${question._id}`}
-          className="text-dark200_light900  sm:h3-semibold base-semibold line-clamp-1 hover:opacity-80"
-        >
-          {question.title}
-        </Link>
+
+        <div className="flex items-center justify-between">
+          <Link
+            href={`/question/${question._id}/#${answer._id}`}
+            className="text-dark200_light900  sm:h3-semibold base-semibold line-clamp-1 hover:opacity-80"
+          >
+            {question.title}
+          </Link>
+          {/* if signed in add edit ,delete actions */}
+          <SignedIn>
+            {clerkId === answer.author.clerkId && (
+              <div>
+                <EditeDeleteAction itemId={answer._id} type="Answer" />
+              </div>
+            )}
+          </SignedIn>
+        </div>
       </div>
-      {/* if signed in add edit ,delete actions */}
 
       <div className="mt-6 flex w-full flex-wrap items-center justify-between">
         <Metric

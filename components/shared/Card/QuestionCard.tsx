@@ -4,6 +4,8 @@ import Tag from "../Tag/Tag";
 import Link from "next/link";
 import Metric from "../Metric/Metric";
 import { timeStampCalculator, formatNumber } from "@/utils";
+import { SignedIn } from "@clerk/nextjs";
+import EditeDeleteAction from "../EditeDeleteAction/EditeDeleteAction";
 interface PropType {
   question: {
     _id: string;
@@ -16,9 +18,10 @@ interface PropType {
     views: number;
     createdAt: string;
   };
+  clerkId?: string;
 }
 
-const QuestionCard = ({ question }: PropType) => {
+const QuestionCard = ({ question, clerkId }: PropType) => {
   return (
     <div
       // eslint-disable-next-line tailwindcss/no-custom-classname
@@ -28,14 +31,24 @@ const QuestionCard = ({ question }: PropType) => {
         <div className="small-regular text-dark400_light800 sm:hidden">
           {timeStampCalculator(question.createdAt)}
         </div>
-        <Link
-          href={`/question/${question._id}`}
-          className="text-dark200_light900  sm:h3-semibold base-semibold line-clamp-1 hover:opacity-80"
-        >
-          {question.title}
-        </Link>
+
+        <div className="flex items-center justify-between">
+          <Link
+            href={`/question/${question._id}`}
+            className="text-dark200_light900  sm:h3-semibold base-semibold line-clamp-1 hover:opacity-80"
+          >
+            {question.title}
+          </Link>
+          {/* if user signed in, add edit and delete actions */}
+          <SignedIn>
+            {question.author.clerkId === clerkId && (
+              <div>
+                <EditeDeleteAction itemId={question._id} type="Question" />
+              </div>
+            )}
+          </SignedIn>
+        </div>
       </div>
-      {/* if signed in add edit ,delete actions */}
 
       <div className="mt-3.5 flex flex-wrap gap-2">
         {question.tags.map((tag) => {

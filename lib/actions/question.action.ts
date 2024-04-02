@@ -1,16 +1,20 @@
 "use server";
 
+import { Answer } from "@/database/answer.model";
 import { connectToDataBase } from "../mongoose";
 import { Question } from "@/database/question.model";
 import { Tag } from "@/database/tag.model";
 import { User } from "@/database/user.model";
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
+  EditQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
+import { InteractionTow } from "@/database/interaction.model";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -48,6 +52,26 @@ export async function createQuestion(params: CreateQuestionParams) {
     // Increments author reputation by +5 for creating a question
   } catch (error) {
     console.log(`error from mongodb connection :${error}`);
+  }
+}
+
+export async function editQuestion(params: EditQuestionParams) {
+  try {
+    connectToDataBase();
+
+    const { title, content, path, questionId } = params;
+
+    // edit the question
+    const question = await Question.findByIdAndUpdate(questionId, { title, content });
+    if  ( ! question){
+      throw new Error("Question not found.")
+    }
+    revalidatePath(path);
+    // create an interaction record for the user's ask_question action
+
+    // Increments author reputation by +5 for creating a question
+  } catch (error) {
+    console.log(`${error}`);
   }
 }
 
@@ -109,11 +133,7 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
     } else {
       updateQuery = { $addToSet: { upvotes: userId } };
     }
-    const question = await Question.findByIdAndUpdate(
-      { _id: questionId },
-      updateQuery,
-      { new: true },
-    );
+    const question = await Question.findByIdAndUpdate({ _id: questionId }, updateQuery, { new: true });
     if (!question) {
       throw new Error("question doesnt exist");
     }
@@ -141,11 +161,7 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     } else {
       updateQuery = { $addToSet: { downvotes: userId } };
     }
-    const question = await Question.findByIdAndUpdate(
-      { _id: questionId },
-      updateQuery,
-      { new: true },
-    );
+    const question = await Question.findByIdAndUpdate({ _id: questionId }, updateQuery, { new: true });
     if (!question) {
       throw new Error("question doesnt exist");
     }
@@ -154,5 +170,19 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     revalidatePath(path);
   } catch (error) {
     console.error(`error in downvoteQuestion server action is :${error}`);
+  }
+}
+export async function deleteQuestionAction(params: DeleteQuestionParams) {
+  try {
+    connectToDataBase();
+
+    const { questionId, path } = params;
+    await Question.findByIdAndDelete(questionId);
+    await Answer.deleteMany({ question: questionId });
+    await InteractionTow.deleteMany({ question: questionId });
+    await Tag.updateMany({ inQuestionsUsed: questionId }, { $pull: { inQuestionsUsed: questionId } });
+    revalidatePath(path);
+  } catch (error) {
+    console.log(`error from mongodb connection :${error}`);
   }
 }

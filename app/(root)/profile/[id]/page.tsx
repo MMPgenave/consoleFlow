@@ -116,10 +116,19 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts">
-            <QuestionTab userId={result!.user._id} />
+            <QuestionTab
+              userId={result!.user._id}
+              clerkId={clerkId!}
+              searchParams={searchParams}
+            />
           </TabsContent>
           <TabsContent value="answers">
-            <AnswerTab userId={result!.user._id} />
+            <AnswerTab
+              userId={result!.user._id}
+              userName={result!.user.name}
+              clerkId={clerkId!}
+              searchParams={searchParams}
+            />
           </TabsContent>
         </Tabs>
         <div className="flex-1">
@@ -140,7 +149,7 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
                 })}
               </div>
             ) : (
-              <div>No Tags</div>
+              <div></div>
             )}
           </div>
         </div>

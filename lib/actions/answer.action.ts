@@ -5,11 +5,13 @@ import { connectToDataBase } from "../mongoose";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
+  DeleteAnswerParams,
   GetAnswersParams,
 } from "./shared.types";
 import { Question } from "@/database/question.model";
 import { revalidatePath } from "next/cache";
 import { User } from "@/database/user.model";
+import { InteractionTow } from "@/database/interaction.model";
 
 export async function answersToQuestion(prop: CreateAnswerParams) {
   try {
@@ -116,5 +118,26 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     revalidatePath(path);
   } catch (error) {
     console.error(`error in downvoteAnswer server action is :${error}`);
+  }
+}
+export async function deleteAnswerAction(params: DeleteAnswerParams) {
+  try {
+    connectToDataBase();
+
+    const { answerId, path } = params;
+    const answer = await Answer.findById({ _id: answerId });
+    if (!answer) {
+      throw new Error("Answer not found!");
+    }
+    await Answer.deleteOne({ _id: answerId });
+    await Question.updateMany(
+      { _id: answer.question },
+      { $pull: { answers: answerId } },
+    );
+    await InteractionTow.deleteMany({ answer: answerId });
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(`error from mongodb connection :${error}`);
   }
 }

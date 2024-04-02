@@ -190,7 +190,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
     console.error(`error in getUserQuestions server action is :${error}`);
   }
 }
-export async function getUserAnsweredQuestions(params: GetUserStatsParams) {
+export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDataBase();
     const { userId } = params;
@@ -206,8 +206,6 @@ export async function getUserAnsweredQuestions(params: GetUserStatsParams) {
       .sort({ upvotes: -1 });
     return { answers };
   } catch (error) {
-    console.error(
-      `error in getUserAnsweredQuestion server action is :${error}`,
-    );
+    console.error(`error in getUserAnswers server action is :${error}`);
   }
 }

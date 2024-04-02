@@ -1,0 +1,39 @@
+{
+  "control": {
+    "_subjects": { "values": { "observers": [] }, "array": { "observers": [] }, "state": { "observers": [] } },
+    "_proxyFormState": {
+      "isDirty": false,
+      "dirtyFields": false,
+      "touchedFields": false,
+      "isValidating": false,
+      "isValid": false,
+      "errors": false
+    },
+    "_fields": {},
+    "_formValues": { "title": "", "explanation": "", "tags": [] },
+    "_state": { "action": false, "mount": false, "watch": false },
+    "_defaultValues": { "title": "", "explanation": "", "tags": [] },
+    "_names": { "mount": {}, "unMount": {}, "array": {}, "watch": {} },
+    "_formState": {
+      "submitCount": 0,
+      "isDirty": false,
+      "isLoading": false,
+      "isValidating": false,
+      "isSubmitted": false,
+      "isSubmitting": false,
+      "isSubmitSuccessful": false,
+      "isValid": false,
+      "touchedFields": {},
+      "dirtyFields": {},
+      "errors": {},
+      "disabled": false
+    },
+    "_options": {
+      "mode": "onSubmit",
+      "reValidateMode": "onChange",
+      "shouldFocusError": true,
+      "defaultValues": { "title": "", "explanation": "", "tags": [] }
+    }
+  },
+  "formState": { "defaultValues": { "title": "", "explanation": "", "tags": [] } }
+}

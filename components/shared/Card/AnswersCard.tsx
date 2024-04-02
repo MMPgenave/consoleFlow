@@ -26,7 +26,7 @@ export default async function AnswerCard({ answer }: any) {
   });
 
   return (
-    <div className="">
+    <div className=" ">
       <div className="flex justify-between">
         <Link
           href={`/profile/${author.clerkId}`}

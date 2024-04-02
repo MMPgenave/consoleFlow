@@ -34,13 +34,15 @@ export default async function AllAnswers({
             />
           </div>
 
-          {results!.map((answer: any) => {
-            return (
-              <article className="light-border border-b py-10" key={answer._id}>
-                <AnswerCard answer={answer} />
-              </article>
-            );
-          })}
+          <div className="mt-5">
+            {results!.map((answer: any) => {
+              return (
+                <article className="border-y py-10" key={answer._id}>
+                  <AnswerCard answer={answer} />
+                </article>
+              );
+            })}
+          </div>
         </div>
       ) : (
         <NoResult

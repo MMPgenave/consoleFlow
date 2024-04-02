@@ -73,6 +73,7 @@ export interface EditQuestionParams {
   title: string;
   content: string;
   path: string;
+ 
 }
 export interface GetAllTagsParams {
   page?: number;
