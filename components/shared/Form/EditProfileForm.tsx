@@ -92,6 +92,7 @@ export function EditProfileForm({ mongoUser }: Props) {
               <FormControl>
                 <>
                   <Input
+                    {...field}
                     className="no-focus paragraph-regular background-light700_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
@@ -112,6 +113,7 @@ export function EditProfileForm({ mongoUser }: Props) {
               <FormControl>
                 <>
                   <Input
+                    {...field}
                     className="no-focus paragraph-regular background-light700_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
@@ -132,6 +134,7 @@ export function EditProfileForm({ mongoUser }: Props) {
               <FormControl>
                 <>
                   <Input
+                    {...field}
                     className="no-focus paragraph-regular background-light700_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
@@ -154,6 +157,7 @@ export function EditProfileForm({ mongoUser }: Props) {
               <FormControl>
                 <>
                   <Textarea
+                    {...field}
                     className="no-focus paragraph-regular background-light700_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />

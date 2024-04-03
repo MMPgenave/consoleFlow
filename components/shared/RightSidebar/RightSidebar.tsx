@@ -41,11 +41,10 @@ const RightSidebar = () => {
                 width={20}
                 height={20}
                 alt={label}
-                className={` ${route !== path && "invert-colors"}`}
+                className={` ${route !== path && "invert-colors"} `}
               />
-              <div
-                className={`base-medium text-gray-100 ${route !== path && " text-dark200_light800"} max-lg:hidden`}
-              >
+
+              <div className={`base-medium text-gray-100 ${route !== path && " text-dark200_light800"} max-lg:hidden`}>
                 {label}
               </div>
             </Link>
@@ -54,36 +53,16 @@ const RightSidebar = () => {
       </div>
       <SignedOut>
         <div className="text-dark200_light800 base-medium mt-4   flex flex-col  items-center gap-3 lg:px-8">
-          <Link
-            href={"/sign-in"}
-            className="lg:background-light900_dark300 rounded-lg px-4 py-2"
-          >
+          <Link href={"/sign-in"} className="lg:background-light900_dark300 rounded-lg px-4 py-2">
             <div className="flex gap-4">
-              <Image
-                src="/assets/icons/account.svg"
-                width={20}
-                height={20}
-                className=" invert-colors"
-                alt="sign-in"
-              />
+              <Image src="/assets/icons/account.svg" width={20} height={20} className=" invert-colors" alt="sign-in" />
               <div className="primary-text-gradient hidden lg:block">ورود</div>
             </div>
           </Link>
-          <Link
-            href={"/sign-up"}
-            className="lg:background-light900_dark300 rounded-lg px-4 py-2"
-          >
+          <Link href={"/sign-up"} className="lg:background-light900_dark300 rounded-lg px-4 py-2">
             <div className="flex gap-4">
-              <Image
-                src="/assets/icons/sign-up.svg"
-                width={20}
-                height={20}
-                className="invert-colors"
-                alt="sign-up"
-              />
-              <div className="text-dark300_light900 hidden text-[16px] lg:block">
-                ساخت حساب
-              </div>
+              <Image src="/assets/icons/sign-up.svg" width={20} height={20} className="invert-colors" alt="sign-up" />
+              <div className="text-dark300_light900 hidden text-[16px] lg:block">ساخت حساب</div>
             </div>
           </Link>
         </div>
