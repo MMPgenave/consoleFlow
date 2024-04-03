@@ -9,7 +9,7 @@ import { getUserById } from "@/lib/actions/user.action";
 export default async function AnswerCard({ answer }: any) {
   const { author, content, createdAt, _id, upvotes, downvotes } = answer;
   const { userId } = auth();
-  const mongoUser = await getUserById({ userId });
+  const mongoUser = await getUserById({ userId: userId! });
 
   let hasUpvoted: boolean = false;
 
@@ -28,10 +28,7 @@ export default async function AnswerCard({ answer }: any) {
   return (
     <div className=" ">
       <div className="flex justify-between">
-        <Link
-          href={`/profile/${author.clerkId}`}
-          className="flex flex-1 items-start gap-1 sm:items-center"
-        >
+        <Link href={`/profile/${author.clerkId}`} className="flex flex-1 items-start gap-1 sm:items-center">
           <Image
             className="rounded-full object-cover max-sm:mt-0.5"
             src={author.picture}
@@ -41,13 +38,8 @@ export default async function AnswerCard({ answer }: any) {
           />
 
           <div className="flex flex-col sm:flex-row sm:items-center">
-            <div className="paragraph-semibold text-dark300_light700 mt-1">
-              {author.name}
-            </div>
-            <div
-              className="small-regular text-light400_light500  mr-1 mt-1 line-clamp-1"
-              dir="rtl"
-            >
+            <div className="paragraph-semibold text-dark300_light700 mt-1">{author.name}</div>
+            <div className="small-regular text-light400_light500  mr-1 mt-1 line-clamp-1" dir="rtl">
               {` ${timeStampCalculator(createdAt)} `}
               <span>جواب داده شد </span>
             </div>
