@@ -1,3 +1,5 @@
+import qs from "query-string";
+
 export const timeStampCalculator = (value: string): string => {
   const now = new Date();
   const diffInMillis = now.getTime() - new Date(value).getTime();
@@ -57,4 +59,30 @@ export function getJoinMonthAndYear(joinDate: Date): string {
   const year = joinDate.getFullYear();
 
   return `${month}, ${year}`;
+}
+export function formUrlQuery({ params, key, value }: { params: string; key: string; value: string | null }) {
+  const currentUrl = qs.parse(params);
+  currentUrl[key] = value;
+  console.log(`current pathname in formUrlQuery :${window.location.pathname}`);
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  );
+}
+export function removeKeysFromQuery({ params, keys }: { params: string; keys: string[] }) {
+  const currentUrl = qs.parse(params);
+  keys.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  );
 }

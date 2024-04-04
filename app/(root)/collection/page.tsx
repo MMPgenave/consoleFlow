@@ -6,7 +6,8 @@ import { auth } from "@clerk/nextjs";
 import { getAllQuestionCollection } from "@/lib/actions/user.action";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import QuestionCard from "@/components/shared/Card/QuestionCard";
-const CollectionPage = async () => {
+import { SearchParamsProps } from "@/types";
+const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) {
@@ -15,30 +16,22 @@ const CollectionPage = async () => {
 
   const questionCollection = await getAllQuestionCollection({
     clerkId: userId!,
+    searchQuery: searchParams.q,
   });
 
   return (
     <div>
       <h1 className="h1-bold text-dark100_light900"> سوالات ذخیره شده</h1>
       <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:gap-3">
-        <LocalSearch
-          route="/collection"
-          placeholder=" سوالات ذخیره شده رو جستجو کن..."
-        />
-        <Filter
-          filterData={QuestionFilters}
-          placeholder="فیلتری را انتخاب کنید"
-          height="h-[50px]"
-        />
+        <LocalSearch route="/collection" placeholder=" سوالات ذخیره شده رو جستجو کن..." />
+        <Filter filterData={QuestionFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />
       </div>
-      <div className="mt-10">
+      <div className="mt-10 ">
         {questionCollection.length > 0 ? (
-          <div>
-            {JSON.parse(JSON.stringify(questionCollection)).map(
-              (question: any) => {
-                return <QuestionCard question={question} key={question._id} />;
-              },
-            )}
+          <div className="flex flex-col gap-6">
+            {JSON.parse(JSON.stringify(questionCollection)).map((question: any) => {
+              return <QuestionCard question={question} key={question._id} />;
+            })}
           </div>
         ) : (
           <NoResult

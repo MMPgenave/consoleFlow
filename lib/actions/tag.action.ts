@@ -2,11 +2,7 @@
 
 import { User } from "@/database/user.model";
 import { connectToDataBase } from "../mongoose";
-import {
-  GetAllTagsParams,
-  GetQuestionsByTagIdParams,
-  GetTopInteractedTagsParams,
-} from "./shared.types";
+import { GetAllTagsParams, GetQuestionsByTagIdParams, GetTopInteractedTagsParams } from "./shared.types";
 import { ITag, Tag } from "@/database/tag.model";
 import { Question } from "@/database/question.model";
 import { FilterQuery } from "mongoose";
@@ -32,8 +28,12 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDataBase();
-
-    const tags = await Tag.find({});
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Tag> = {};
+    if (searchQuery) {
+      query.$or = [{ text: { $regex: new RegExp(searchQuery, "i") } }];
+    }
+    const tags = await Tag.find(query);
     return { tags };
   } catch (error) {
     console.error(error);
@@ -50,9 +50,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     const tag = await Tag.findOne(tagFilter).populate({
       path: "inQuestionsUsed",
       model: Question,
-      match: searchQuery
-        ? { title: { $regex: searchQuery, $options: "i" } }
-        : {},
+      match: searchQuery ? { title: { $regex: searchQuery, $options: "i" } } : {},
       options: {
         sort: { createdAt: -1 },
       },
@@ -69,5 +67,19 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     return { tagName: tag.text, questions };
   } catch (error) {
     console.error(`Error in getTagById is : ${error}`);
+  }
+}
+export async function getHotTags() {
+  try {
+    connectToDataBase();
+
+    const tags = await Tag.aggregate([
+      { $project: { text: 1, numberOfQuestions: { $size: "$inQuestionsUsed" } } },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 5 },
+    ]);
+    return { tags };
+  } catch (error) {
+    console.error(error);
   }
 }

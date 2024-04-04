@@ -23,7 +23,7 @@ const EditQuestionPage = async ({ params }: URLProps) => {
         <QuestionForm
           mongoUserId={JSON.stringify(mongoUser?._id)}
           type="edit"
-          QuestionToBeEdited={JSON.parse(JSON.stringify(oldQuestionVersion))}
+          QuestionToBeEdited={JSON.stringify(oldQuestionVersion)}
         />
       </div>
     </div>

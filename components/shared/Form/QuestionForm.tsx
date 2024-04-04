@@ -14,7 +14,7 @@ import { useRouter, usePathname } from "next/navigation";
 interface Props {
   mongoUserId: string;
   type: string;
-  QuestionToBeEdited?: any;
+  QuestionToBeEdited?: string;
 }
 export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,15 +24,13 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: type === "edit" ? QuestionToBeEdited.title : "",
-      explanation: type === "edit" ? QuestionToBeEdited.content : "",
-      tags: type === "edit" ? QuestionToBeEdited.tags.map((tag: any) => tag.text) : [],
+      title: type === "edit" ? QuestionToBeEdited && JSON.parse(QuestionToBeEdited).title : "",
+      explanation: type === "edit" ? QuestionToBeEdited && JSON.parse(QuestionToBeEdited).content : "",
+      tags:
+        type === "edit" ? QuestionToBeEdited && JSON.parse(QuestionToBeEdited).tags.map((tag: any) => tag.text) : [],
     },
   });
 
-  if (type === "edit") {
-    console.log(QuestionToBeEdited);
-  }
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof questionSchema>) {
     setIsSubmitting(true);
@@ -50,13 +48,13 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
       }
       if (type === "edit") {
         await editQuestion({
-          questionId: QuestionToBeEdited._id,
+          questionId: QuestionToBeEdited && JSON.parse(QuestionToBeEdited)._id,
           title: values.title,
           content: values.explanation,
-          path: `/question/${QuestionToBeEdited._id}`,
+          path: `/question/${QuestionToBeEdited && JSON.parse(QuestionToBeEdited)._id}`,
         });
 
-        router.push(`/question/${QuestionToBeEdited._id}`);
+        router.push(`/question/${QuestionToBeEdited && JSON.parse(QuestionToBeEdited)._id}`);
       }
     } catch (error) {
       console.log(error);
@@ -136,7 +134,7 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   // @ts-ignore
                   onInit={(evt, editor) => (editorRef.current = editor)}
-                  initialValue={type === "edit" ? QuestionToBeEdited.content : ""}
+                  initialValue={type === "edit" ? QuestionToBeEdited && JSON.parse(QuestionToBeEdited).content : ""}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
                   init={{

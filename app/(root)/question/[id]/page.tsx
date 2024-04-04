@@ -12,7 +12,7 @@ import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
 import Voting from "@/components/shared/Voting/Voting";
 import { URLProps } from "@/types";
 
-export default async function QuestionDetailsPage({ params }: URLProps) {
+export default async function QuestionDetailsPage({ params, searchParams }: URLProps) {
   const result = await getQuestionById({ questionId: params.id });
   const { author, tags, title, content, createdAt, answers, views, upvotes, _id, downvotes } = result?.question;
   const { userId } = auth();

@@ -6,8 +6,9 @@ import HomePageFilter from "@/components/home/HomePageFilter";
 import QuestionCard from "@/components/shared/Card/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import { getAllQuestions } from "@/lib/actions/question.action";
-export default async function Home() {
-  const results = await getAllQuestions({});
+import { SearchParamsProps } from "@/types";
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const results = await getAllQuestions({ searchQuery: searchParams.q });
   return (
     <main className="">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
@@ -20,24 +21,17 @@ export default async function Home() {
         </Link>
       </div>
       <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:justify-between md:flex-col">
-        <LocalSearch route="/" placeholder="در سوالات جسجتجو کن" />
+        <LocalSearch route="/" placeholder="در سوالات جستجو کن" />
         <div className="md:hidden">
-          <Filter
-            filterData={HomePageFilters}
-            placeholder="نوع فیلتر"
-            otherClasses="flex"
-            height="h-[50px]"
-          />
+          <Filter filterData={HomePageFilters} placeholder="نوع فیلتر" otherClasses="flex" height="h-[50px]" />
         </div>
         <HomePageFilter filterData={HomePageFilters} />
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
         {results!.questions.length > 0 ? (
-          JSON.parse(JSON.stringify(results?.questions)).map(
-            (question: any) => {
-              return <QuestionCard question={question} key={question._id} />;
-            },
-          )
+          JSON.parse(JSON.stringify(results?.questions)).map((question: any) => {
+            return <QuestionCard question={question} key={question._id} />;
+          })
         ) : (
           <NoResult
             title="  سوالی برای نشان دادن وجود ندارد"

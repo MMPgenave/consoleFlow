@@ -15,6 +15,7 @@ import {
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
 import { InteractionTow } from "@/database/interaction.model";
+import { FilterQuery } from "mongoose";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -63,8 +64,8 @@ export async function editQuestion(params: EditQuestionParams) {
 
     // edit the question
     const question = await Question.findByIdAndUpdate(questionId, { title, content });
-    if  ( ! question){
-      throw new Error("Question not found.")
+    if (!question) {
+      throw new Error("Question not found.");
     }
     revalidatePath(path);
     // create an interaction record for the user's ask_question action
@@ -78,7 +79,15 @@ export async function editQuestion(params: EditQuestionParams) {
 export async function getAllQuestions(params: GetQuestionsParams) {
   try {
     connectToDataBase();
-    const questions = await Question.find({})
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {};
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+    const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
@@ -86,6 +95,7 @@ export async function getAllQuestions(params: GetQuestionsParams) {
     // for (let i=0;i<questions.length;i++){
     //     if (questions[i]._id===)
     // }
+    revalidatePath("/");
     return { questions };
   } catch (error) {
     console.error(`error in getAllQuestions server action is :${error}`);
@@ -184,5 +194,20 @@ export async function deleteQuestionAction(params: DeleteQuestionParams) {
     revalidatePath(path);
   } catch (error) {
     console.log(`error from mongodb connection :${error}`);
+  }
+}
+
+export async function getHotQuestions() {
+  try {
+    connectToDataBase();
+    const questions = await Question.find({})
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User })
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5);
+
+    return { questions };
+  } catch (error) {
+    console.error(`Error in getHotQuestions server action is :${error}`);
   }
 }

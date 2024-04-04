@@ -30,8 +30,15 @@ export async function getUserById(params: GetUserByIdParams) {
 export async function getAllUser(params: GetAllUsersParams) {
   try {
     await connectToDataBase();
-    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof User> = {};
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+    const users = await User.find(query).sort({ createdAt: -1 });
     return { users };
   } catch (error) {
     console.error(error);
@@ -98,17 +105,9 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
       throw new Error("User not found");
     }
     if (user.saved.includes(questionId)) {
-      await User.findByIdAndUpdate(
-        { _id: userId },
-        { $pull: { saved: questionId } },
-        { new: true },
-      );
+      await User.findByIdAndUpdate({ _id: userId }, { $pull: { saved: questionId } }, { new: true });
     } else {
-      await User.findByIdAndUpdate(
-        { _id: userId },
-        { $addToSet: { saved: questionId } },
-        { new: true },
-      );
+      await User.findByIdAndUpdate({ _id: userId }, { $addToSet: { saved: questionId } }, { new: true });
     }
 
     revalidatePath(path);
@@ -117,16 +116,12 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   }
 }
 
-export async function getAllQuestionCollection(
-  params: GetSavedQuestionsParams,
-) {
+export async function getAllQuestionCollection(params: GetSavedQuestionsParams) {
   try {
     await connectToDataBase();
     // eslint-disable-next-line no-unused-vars
     const { clerkId, page = 1, pageSize = 10, searchQuery, filter } = params;
-    const query: FilterQuery<typeof Question> = searchQuery
-      ? { title: { $regex: new RegExp(searchQuery, "i") } }
-      : {};
+    const query: FilterQuery<typeof Question> = searchQuery ? { title: { $regex: new RegExp(searchQuery, "i") } } : {};
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       model: Question,

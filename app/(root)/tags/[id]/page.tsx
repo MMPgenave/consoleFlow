@@ -13,23 +13,16 @@ const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
   });
   return (
     <div>
-      <h1 className="h1-bold text-dark100_light900 !uppercase ">
-        {result!.tagName}
-      </h1>
+      <h1 className="h1-bold text-dark100_light900 !uppercase ">{result!.tagName}</h1>
       <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:gap-3 ">
-        <LocalSearch
-          route={`/tags/${params.id}`}
-          placeholder="جستجو را با اسم تگ شروع کنید..."
-        />
+        <LocalSearch route={`/tags/${params.id}`} placeholder="جستجو در سوالات مربوط به این تگ مشخص ..." />
       </div>
       <div className="mt-12">
         {JSON.parse(JSON.stringify(result?.questions)).length > 0 ? (
-          <div>
-            {JSON.parse(JSON.stringify(result?.questions)).map(
-              (question: any) => {
-                return <QuestionCard question={question} key={question._id} />;
-              },
-            )}
+          <div className="flex flex-col gap-6">
+            {JSON.parse(JSON.stringify(result?.questions)).map((question: any) => {
+              return <QuestionCard question={question} key={question._id} />;
+            })}
           </div>
         ) : (
           <NoResult
