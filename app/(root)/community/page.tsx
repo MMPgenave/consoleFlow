@@ -7,7 +7,7 @@ import Link from "next/link";
 import { URLProps } from "@/types";
 
 export default async function Community({ params, searchParams }: URLProps) {
-  const result = await getAllUser({ searchQuery: searchParams.q });
+  const result = await getAllUser({ searchQuery: searchParams.q, filter: searchParams.filter });
 
   return (
     <>
@@ -16,14 +16,10 @@ export default async function Community({ params, searchParams }: URLProps) {
         <LocalSearch route="/community" placeholder="مغز متفکر هارو اینجا جستجو کن..." />
         <Filter filterData={UserFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />
       </div>
-      <section className="mt-12 flex flex-wrap gap-4  ">
+      <section className="mt-12 flex flex-wrap justify-between gap-4">
         {result!.users.length > 0 ? (
           result!.users.map((user: any, i: number) => {
-            return (
-              <div key={user._id}>
-                <UserCard userData={user} />
-              </div>
-            );
+            return <UserCard userData={user} key={user._id} />;
           })
         ) : (
           <div>

@@ -2,12 +2,7 @@
 
 import { Answer } from "@/database/answer.model";
 import { connectToDataBase } from "../mongoose";
-import {
-  AnswerVoteParams,
-  CreateAnswerParams,
-  DeleteAnswerParams,
-  GetAnswersParams,
-} from "./shared.types";
+import { AnswerVoteParams, CreateAnswerParams, DeleteAnswerParams, GetAnswersParams } from "./shared.types";
 import { Question } from "@/database/question.model";
 import { revalidatePath } from "next/cache";
 import { User } from "@/database/user.model";
@@ -33,7 +28,25 @@ export async function answersToQuestion(prop: CreateAnswerParams) {
 export async function getAllAnswers(params: GetAnswersParams) {
   try {
     connectToDataBase();
-    const { questionId } = params;
+    const { questionId, sortBy: filter } = params;
+    let filterOptions = {};
+    switch (filter) {
+      case "highestUpvotes":
+        filterOptions = { upvotes: -1 };
+        break;
+      case "lowestUpvotes":
+        filterOptions = { upvotes: 1 };
+        break;
+      case "recent":
+        filterOptions = { createdAt: -1 };
+        break;
+      case "old":
+        filterOptions = { createdAt: 1 };
+        break;
+
+      default:
+        break;
+    }
     const answers = await Answer.find({ question: questionId })
       .populate({
         path: "author",
@@ -50,7 +63,7 @@ export async function getAllAnswers(params: GetAnswersParams) {
         model: User,
         select: "_id clerkId name picture",
       })
-      .sort({ createdAt: -1 });
+      .sort(filterOptions);
     return answers;
   } catch (error) {
     console.error(`error (in getAllAnswers server action) is :${error}`);
@@ -73,11 +86,7 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
     } else {
       updateQuery = { $addToSet: { upvotes: userId } };
     }
-    const answer = await Answer.findByIdAndUpdate(
-      { _id: answerId },
-      updateQuery,
-      { new: true },
-    );
+    const answer = await Answer.findByIdAndUpdate({ _id: answerId }, updateQuery, { new: true });
     if (!answer) {
       throw new Error("Answer doesnt exist");
     }
@@ -105,11 +114,7 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     } else {
       updateQuery = { $addToSet: { downvotes: userId } };
     }
-    const answer = await Answer.findByIdAndUpdate(
-      { _id: answerId },
-      updateQuery,
-      { new: true },
-    );
+    const answer = await Answer.findByIdAndUpdate({ _id: answerId }, updateQuery, { new: true });
     if (!answer) {
       throw new Error("Answer doesnt exist");
     }
@@ -130,10 +135,7 @@ export async function deleteAnswerAction(params: DeleteAnswerParams) {
       throw new Error("Answer not found!");
     }
     await Answer.deleteOne({ _id: answerId });
-    await Question.updateMany(
-      { _id: answer.question },
-      { $pull: { answers: answerId } },
-    );
+    await Question.updateMany({ _id: answer.question }, { $pull: { answers: answerId } });
     await InteractionTow.deleteMany({ answer: answerId });
 
     revalidatePath(path);

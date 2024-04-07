@@ -8,15 +8,10 @@ interface Props {
   questionId: string;
   userId: string;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
-export default async function AllAnswers({
-  questionId,
-  userId,
-  page,
-  filter,
-}: Props) {
-  const results = await getAllAnswers({ questionId });
+export default async function AllAnswers({ questionId, userId, page, filter }: Props) {
+  const results = await getAllAnswers({ questionId, sortBy: filter });
 
   return (
     <div className="mt-11">
@@ -26,12 +21,7 @@ export default async function AllAnswers({
             <h4 className="primary-text-gradient">
               {results?.length} <span className="ml-2">جواب</span>
             </h4>
-            <Filter
-              filterData={AnswerFilters}
-              placeholder="نوع فیلتر"
-              otherClasses="flex"
-              height="h-[50px]"
-            />
+            <Filter filterData={AnswerFilters} placeholder="نوع فیلتر" otherClasses="flex" height="h-[50px]" />
           </div>
 
           <div className="mt-5">

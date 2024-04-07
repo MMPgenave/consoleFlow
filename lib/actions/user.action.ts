@@ -30,7 +30,7 @@ export async function getUserById(params: GetUserByIdParams) {
 export async function getAllUser(params: GetAllUsersParams) {
   try {
     await connectToDataBase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -38,7 +38,22 @@ export async function getAllUser(params: GetAllUsersParams) {
         { username: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
-    const users = await User.find(query).sort({ createdAt: -1 });
+    let sortOptions = {};
+    switch (filter) {
+      case "new_users":
+        sortOptions = { joinedAt: -1 };
+        break;
+      case "old_users":
+        sortOptions = { joinedAt: 1 };
+        break;
+      case "top_contributors":
+        sortOptions = { reputation: -1 };
+        break;
+
+      default:
+        break;
+    }
+    const users = await User.find(query).sort(sortOptions);
     return { users };
   } catch (error) {
     console.error(error);
@@ -122,13 +137,34 @@ export async function getAllQuestionCollection(params: GetSavedQuestionsParams) 
     // eslint-disable-next-line no-unused-vars
     const { clerkId, page = 1, pageSize = 10, searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = searchQuery ? { title: { $regex: new RegExp(searchQuery, "i") } } : {};
+    let filterOptions = {};
+    switch (filter) {
+      case "most_recent":
+        filterOptions = { createdAt: -1 };
+        break;
+      case "oldest":
+        filterOptions = { createdAt: 1 };
+        break;
+      case "most_voted":
+        filterOptions = { upvotes: -1 };
+        break;
+      case "most_viewed":
+        filterOptions = { views: -1 };
+        break;
+      case "most_answered":
+        filterOptions = { answers: -1 };
+        break;
+
+      default:
+        break;
+    }
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       model: Question,
       match: query,
 
       options: {
-        sort: { createdAt: -1 },
+        sort: filterOptions,
       },
       populate: [
         { path: "tags", model: Tag },

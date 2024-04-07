@@ -34,7 +34,7 @@ const SearchQuestions = ({ route, placeholder }: CustomType) => {
       }
     }, 300);
     return () => clearTimeout(delayDebounceFcn);
-  }, [search, query, route, router, currentPath, searchParams]);
+  }, [search, route, router, currentPath, searchParams]);
   return (
     <div className="background-light800_darkgradient flex min-h-[50px] w-full   gap-2 rounded-md px-2">
       <Image

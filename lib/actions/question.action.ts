@@ -35,7 +35,7 @@ export async function createQuestion(params: CreateQuestionParams) {
       const existingTag = await Tag.findOneAndUpdate(
         { text: { $regex: new RegExp(`^${tag}$`, "i") } },
         {
-          $setOnInsert: { text: tag },
+          $setOnInsert: { text: tag.toLocaleLowerCase() },
           $push: {
             inQuestionsUsed: question._id,
           },
@@ -79,7 +79,7 @@ export async function editQuestion(params: EditQuestionParams) {
 export async function getAllQuestions(params: GetQuestionsParams) {
   try {
     connectToDataBase();
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -87,10 +87,22 @@ export async function getAllQuestions(params: GetQuestionsParams) {
         { content: { $regex: new RegExp(searchQuery, "i") } },
       ];
     }
+
+    let sortOption = {};
+
+    if (filter === "unanswered") {
+      query.answers = { $size: 0 };
+    }
+    if (filter === "newest") {
+      sortOption = { createdAt: -1 };
+    }
+    if (filter === "frequent") {
+      sortOption = { views: -1 };
+    }
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOption);
     // calculate each questions answers
     // for (let i=0;i<questions.length;i++){
     //     if (questions[i]._id===)

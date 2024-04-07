@@ -21,22 +21,15 @@ interface PropType {
   answer: any;
 }
 
-const QuestionCardForAnswersTab = ({
-  question,
-  answerUpvotes,
-  clerkId,
-  answer,
-}: PropType) => {
+const QuestionCardForAnswersTab = ({ question, answerUpvotes, clerkId, answer }: PropType) => {
   console.log(question.author.name);
   return (
     <div
       // eslint-disable-next-line tailwindcss/no-custom-classname
-      className="card-wrapper flex w-full flex-col rounded-md  border bg-white p-9 sm:px-11"
+      className="dark:dark-gradient flex w-full flex-col rounded-md bg-light-900    p-9 shadow-light-100 sm:px-11"
     >
       <div className="flex flex-col gap-1">
-        <div className="small-regular text-dark400_light800 sm:hidden">
-          {timeStampCalculator(question.createdAt)}
-        </div>
+        <div className="small-regular text-dark400_light800 sm:hidden">{timeStampCalculator(question.createdAt)}</div>
 
         <div className="flex items-center justify-between">
           <Link

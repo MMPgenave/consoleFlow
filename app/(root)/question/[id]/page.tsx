@@ -85,7 +85,7 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
         })}
       </div>
 
-      <AllAnswers questionId={params.id} userId={JSON.stringify(mongoUser._id)} />
+      <AllAnswers questionId={params.id} userId={JSON.stringify(mongoUser._id)} filter={searchParams.filter} />
 
       <AnswersToQuestion questionId={params.id} userId={JSON.stringify(mongoUser._id)} />
     </>

@@ -8,7 +8,7 @@ import NoResult from "@/components/shared/NoResult/NoResult";
 import { getAllQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const results = await getAllQuestions({ searchQuery: searchParams.q });
+  const results = await getAllQuestions({ searchQuery: searchParams.q, filter: searchParams.filter });
   return (
     <main className="">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">

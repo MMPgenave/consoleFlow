@@ -63,7 +63,6 @@ export function getJoinMonthAndYear(joinDate: Date): string {
 export function formUrlQuery({ params, key, value }: { params: string; key: string; value: string | null }) {
   const currentUrl = qs.parse(params);
   currentUrl[key] = value;
-  console.log(`current pathname in formUrlQuery :${window.location.pathname}`);
   return qs.stringifyUrl(
     {
       url: window.location.pathname,
