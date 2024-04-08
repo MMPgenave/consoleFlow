@@ -79,7 +79,8 @@ export async function editQuestion(params: EditQuestionParams) {
 export async function getAllQuestions(params: GetQuestionsParams) {
   try {
     connectToDataBase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -102,13 +103,16 @@ export async function getAllQuestions(params: GetQuestionsParams) {
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOption);
-    // calculate each questions answers
-    // for (let i=0;i<questions.length;i++){
-    //     if (questions[i]._id===)
-    // }
+
+    // pagination
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext: boolean = totalQuestions > skipAmount + questions.length;
+
     revalidatePath("/");
-    return { questions };
+    return { questions, isNext };
   } catch (error) {
     console.error(`error in getAllQuestions server action is :${error}`);
   }

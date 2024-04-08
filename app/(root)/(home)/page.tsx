@@ -7,8 +7,14 @@ import QuestionCard from "@/components/shared/Card/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import { getAllQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const results = await getAllQuestions({ searchQuery: searchParams.q, filter: searchParams.filter });
+  const results = await getAllQuestions({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+    pageSize: 10,
+  });
   return (
     <main className="">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
@@ -43,6 +49,8 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
+
+      <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={results!.isNext} />
     </main>
   );
 }

@@ -5,6 +5,7 @@ import { UserFilters } from "@/constants/Filter";
 import { getAllUser } from "@/lib/actions/user.action";
 import Link from "next/link";
 import { URLProps } from "@/types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 export default async function Community({ params, searchParams }: URLProps) {
   const result = await getAllUser({ searchQuery: searchParams.q, filter: searchParams.filter });
@@ -16,7 +17,7 @@ export default async function Community({ params, searchParams }: URLProps) {
         <LocalSearch route="/community" placeholder="مغز متفکر هارو اینجا جستجو کن..." />
         <Filter filterData={UserFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />
       </div>
-      <section className="mt-12 flex flex-wrap justify-between gap-4">
+      <section className="mt-12 flex flex-wrap  gap-4">
         {result!.users.length > 0 ? (
           result!.users.map((user: any, i: number) => {
             return <UserCard userData={user} key={user._id} />;
@@ -28,6 +29,8 @@ export default async function Community({ params, searchParams }: URLProps) {
           </div>
         )}
       </section>
+
+      <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={result!.isNext} />
     </>
   );
 }

@@ -30,7 +30,9 @@ export async function getUserById(params: GetUserByIdParams) {
 export async function getAllUser(params: GetAllUsersParams) {
   try {
     await connectToDataBase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof User> = {};
     if (searchQuery) {
       query.$or = [
@@ -53,8 +55,10 @@ export async function getAllUser(params: GetAllUsersParams) {
       default:
         break;
     }
-    const users = await User.find(query).sort(sortOptions);
-    return { users };
+    const users = await User.find(query).skip(skipAmount).limit(pageSize).sort(sortOptions);
+    const totalUsers = await User.countDocuments(query);
+    const isNext: boolean = totalUsers > skipAmount + users.length;
+    return { users, isNext };
   } catch (error) {
     console.error(error);
   }
