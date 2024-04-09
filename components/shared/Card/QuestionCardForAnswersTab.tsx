@@ -22,7 +22,7 @@ interface PropType {
 }
 
 const QuestionCardForAnswersTab = ({ question, answerUpvotes, clerkId, answer }: PropType) => {
-  console.log(question.author.name);
+  console.log(question.title);
   return (
     <div
       // eslint-disable-next-line tailwindcss/no-custom-classname

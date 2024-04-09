@@ -8,7 +8,11 @@ import { URLProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
 
 export default async function Community({ params, searchParams }: URLProps) {
-  const result = await getAllUser({ searchQuery: searchParams.q, filter: searchParams.filter });
+  const result = await getAllUser({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <>

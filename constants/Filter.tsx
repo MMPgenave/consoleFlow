@@ -29,8 +29,8 @@ export const HomePageFilters = [
   { name: "  بدون جواب", value: "unanswered" },
 ];
 export const GlobalSearchFilters = [
-  { name: "Question", value: "question" },
-  { name: "Answer", value: "answer" },
-  { name: "User", value: "user" },
-  { name: "Tag", value: "tag" },
+  { name: "سوال", value: "question" },
+  { name: "جواب", value: "answer" },
+  { name: "کاربر", value: "user" },
+  { name: "تگ", value: "tag" },
 ];

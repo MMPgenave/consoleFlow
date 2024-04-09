@@ -28,7 +28,9 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDataBase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 9 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof Tag> = {};
 
     if (searchQuery) {
@@ -54,8 +56,10 @@ export async function getAllTags(params: GetAllTagsParams) {
         break;
     }
 
-    const tags = await Tag.find(query).sort(filterOptions);
-    return { tags };
+    const tags = await Tag.find(query).skip(skipAmount).limit(pageSize).sort(filterOptions);
+    const totalTags = await Tag.countDocuments(query);
+    const isNext: boolean = totalTags > skipAmount + tags.length;
+    return { tags, isNext };
   } catch (error) {
     console.error(error);
   }
@@ -65,10 +69,25 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     connectToDataBase();
     // eslint-disable-next-line no-unused-vars
     const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+    const skipAmount = (page - 1) * pageSize;
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
 
     const tag = await Tag.findOne(tagFilter).populate({
+      path: "inQuestionsUsed",
+      model: Question,
+      match: searchQuery ? { title: { $regex: searchQuery, $options: "i" } } : {},
+      options: {
+        skip: skipAmount,
+        limit: pageSize,
+        sort: { createdAt: -1 },
+      },
+      populate: [
+        { path: "tags", model: Tag },
+        { path: "author", model: User },
+      ],
+    });
+    const { inQuestionsUsed: totalInQuestionUsed } = await Tag.findOne(tagFilter).populate({
       path: "inQuestionsUsed",
       model: Question,
       match: searchQuery ? { title: { $regex: searchQuery, $options: "i" } } : {},
@@ -84,8 +103,11 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
       console.log("Tag not found!.");
       throw error;
     }
+
+    const isNext: boolean = totalInQuestionUsed.length > skipAmount + tag.inQuestionsUsed.length;
+
     const questions = tag.inQuestionsUsed;
-    return { tagName: tag.text, questions };
+    return { tagName: tag.text, questions, isNext };
   } catch (error) {
     console.error(`Error in getTagById is : ${error}`);
   }

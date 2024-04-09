@@ -7,6 +7,7 @@ import { getAllQuestionCollection } from "@/lib/actions/user.action";
 import NoResult from "@/components/shared/NoResult/NoResult";
 import QuestionCard from "@/components/shared/Card/QuestionCard";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
@@ -14,10 +15,11 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
     return null;
   }
 
-  const questionCollection = await getAllQuestionCollection({
+  const result = await getAllQuestionCollection({
     clerkId: userId!,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
@@ -28,9 +30,9 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
         <Filter filterData={QuestionFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />
       </div>
       <div className="mt-10 ">
-        {questionCollection.length > 0 ? (
+        {result?.collection.length > 0 ? (
           <div className="flex flex-col gap-6">
-            {JSON.parse(JSON.stringify(questionCollection)).map((question: any) => {
+            {JSON.parse(JSON.stringify(result?.collection)).map((question: any) => {
               return <QuestionCard question={question} key={question._id} />;
             })}
           </div>
@@ -43,6 +45,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
           />
         )}
       </div>
+      <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={result!.isNext} />
     </div>
   );
 };

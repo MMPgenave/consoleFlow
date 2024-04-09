@@ -1,5 +1,6 @@
 import QuestionCard from "@/components/shared/Card/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
+import Pagination from "@/components/shared/Pagination/Pagination";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
@@ -8,8 +9,8 @@ import React from "react";
 const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
     tagId: params.id,
-    page: 1,
     searchQuery: searchParams.q,
+    page: searchParams.page ? +searchParams.page : 1,
   });
   return (
     <div>
@@ -19,10 +20,13 @@ const TagDetailsPage = async ({ params, searchParams }: URLProps) => {
       </div>
       <div className="mt-12">
         {JSON.parse(JSON.stringify(result?.questions)).length > 0 ? (
-          <div className="flex flex-col gap-6">
-            {JSON.parse(JSON.stringify(result?.questions)).map((question: any) => {
-              return <QuestionCard question={question} key={question._id} />;
-            })}
+          <div>
+            <div className="flex flex-col gap-6">
+              {JSON.parse(JSON.stringify(result?.questions)).map((question: any) => {
+                return <QuestionCard question={question} key={question._id} />;
+              })}
+            </div>
+            <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={result!.isNext} />
           </div>
         ) : (
           <NoResult

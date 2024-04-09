@@ -20,8 +20,12 @@ const Pagination = ({ pageNumber, isNext }: PaginationPropsType) => {
     router.push(newUrl, { scroll: true });
   }
 
+  if (!isNext && pageNumber === 1) {
+    return null;
+  }
+
   return (
-    <div className="mt-10 flex w-full flex-row-reverse items-center justify-center gap-2">
+    <div className="mt-10 flex w-full  items-center justify-center gap-2">
       <Button
         onClick={() => handleNavigation("prev")}
         disabled={pageNumber === 1}

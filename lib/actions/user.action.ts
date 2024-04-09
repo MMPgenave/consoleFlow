@@ -140,6 +140,8 @@ export async function getAllQuestionCollection(params: GetSavedQuestionsParams) 
     await connectToDataBase();
     // eslint-disable-next-line no-unused-vars
     const { clerkId, page = 1, pageSize = 10, searchQuery, filter } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof Question> = searchQuery ? { title: { $regex: new RegExp(searchQuery, "i") } } : {};
     let filterOptions = {};
     switch (filter) {
@@ -168,6 +170,8 @@ export async function getAllQuestionCollection(params: GetSavedQuestionsParams) 
       match: query,
 
       options: {
+        skip: skipAmount,
+        limit: pageSize,
         sort: filterOptions,
       },
       populate: [
@@ -178,7 +182,23 @@ export async function getAllQuestionCollection(params: GetSavedQuestionsParams) 
     if (!user) {
       throw new Error("User not found");
     }
-    return user.saved;
+    const { saved: totalSaved } = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      model: Question,
+      match: query,
+
+      options: {
+        sort: filterOptions,
+      },
+      populate: [
+        { path: "tags", model: Tag },
+        { path: "author", model: User },
+      ],
+    });
+    const totalSavedQuestions = totalSaved.length;
+    const isNext: boolean = totalSavedQuestions > skipAmount + user.saved.length;
+
+    return { collection: user.saved, isNext };
   } catch (error) {
     console.error(error);
   }
@@ -215,13 +235,20 @@ export async function getUserInfo(params: any) {
 export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDataBase();
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 10 } = params;
+    const skipAmount = (page - 1) * pageSize;
     const questions = await Question.find({ author: userId })
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort({ createdAt: -1, views: -1, upvotes: -1 });
-
-    return { questions };
+    const totalQuestions = await Question.find({ author: userId })
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User })
+      .sort({ createdAt: -1, views: -1, upvotes: -1 });
+    const isNext = totalQuestions.length > skipAmount + questions.length;
+    return { questions, isNext };
   } catch (error) {
     console.error(`error in getUserQuestions server action is :${error}`);
   }
@@ -229,7 +256,9 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDataBase();
-    const { userId } = params;
+    const { userId, page = 1, pageSize = 3 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const answers = await Answer.find({
       author: userId,
     })
@@ -239,8 +268,18 @@ export async function getUserAnswers(params: GetUserStatsParams) {
         model: Question,
         populate: [{ path: "author", model: User }],
       })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort({ upvotes: -1 });
-    return { answers };
+
+    const totalAnswers = await Answer.find({
+      author: userId,
+    });
+
+    // فرض اینکه یه کاربر به یک سوال بیش از یکبار جواب داده است را در نظر نگرفتم
+    const isNext = totalAnswers.length > skipAmount + answers.length;
+
+    return { answers, isNext };
   } catch (error) {
     console.error(`error in getUserAnswers server action is :${error}`);
   }
