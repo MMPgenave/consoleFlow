@@ -29,7 +29,7 @@ export async function globalSearch(params: SearchParams) {
         results.push(
           ...queryResults.map((item) => {
             return {
-              title: type === "answer" ? `Answers Containing ${query} ` : item[searchField],
+              title: type === "answer" ? `جواب شامل ${query} ` : item[searchField],
               type,
               id: type === "user" ? item.clerkId : type === "answer" ? item.question._id : item._id,
             };
@@ -46,7 +46,7 @@ export async function globalSearch(params: SearchParams) {
 
       results = queryResults.map((item) => {
         return {
-          title: type === "answer" ? `Answers Containing ${query} ` : item[modelInfo.searchField],
+          title: type === "answer" ? `جواب شامل ${query} ` : item[modelInfo.searchField],
           type,
           id: type === "user" ? item.clerkId : type === "answer" ? item.question._id : item._id,
         };
