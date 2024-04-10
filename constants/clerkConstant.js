@@ -19,4 +19,5 @@ export const localization = {
     action__signOut: "خروج",
     action__manageAccount: "مدیریت حساب کاربری",
   },
+  formFieldLabel__emailAddress_username: "آدرس ایمیل یا اسم کاربری",
 };
