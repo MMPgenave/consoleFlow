@@ -16,9 +16,20 @@ export async function answersToQuestion(prop: CreateAnswerParams) {
 
     const newAnswer = await Answer.create({ author, content, question });
 
-    await Question.findByIdAndUpdate(question, {
+    const relatedQuestion = await Question.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
     });
+
+    // create an interaction record for answer a question action
+    await InteractionTow.create({
+      action: "answer_to_question",
+      user: author,
+      question,
+      answer: newAnswer._id,
+      tags: relatedQuestion.tags,
+    });
+    // increase author reputation by +10 for answering a question
+    await User.findByIdAndUpdate({ _id: author }, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -91,7 +102,10 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
       throw new Error("Answer doesnt exist");
     }
 
-    // increase author reputation by +10 for upvoting a question
+    // increase author reputation by +2 for upvoting an answer
+    await User.findByIdAndUpdate({ _id: userId }, { $inc: { reputation: hasupVoted ? -2 : 2 } });
+    // increase reputation of answer's author  by +10 for receiving an upvote to it's answer
+    await User.findByIdAndUpdate({ _id: answer.author }, { $inc: { reputation: hasupVoted ? -10 : 10 } });
     revalidatePath(path);
   } catch (error) {
     console.error(`Error in upvoteAnswer() server action is :${error}`);
@@ -119,7 +133,10 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
       throw new Error("Answer doesnt exist");
     }
 
-    // increase author reputation by +10 for upvoting a question
+    // increase author reputation by +2 for upvoting an answer
+    await User.findByIdAndUpdate({ _id: userId }, { $inc: { reputation: hasdownVoted ? -2 : 2 } });
+    // increase reputation of answer's author  by +10 for receiving an upvote to it's answer
+    await User.findByIdAndUpdate({ _id: answer.author }, { $inc: { reputation: hasdownVoted ? -10 : 10 } });
     revalidatePath(path);
   } catch (error) {
     console.error(`error in downvoteAnswer server action is :${error}`);

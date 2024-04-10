@@ -1,3 +1,5 @@
+import { BADGE_CRITERIA } from "@/constants";
+import { BadgeCounts } from "@/types";
 import qs from "query-string";
 
 export const timeStampCalculator = (value: string): string => {
@@ -85,3 +87,30 @@ export function removeKeysFromQuery({ params, keys }: { params: string; keys: st
     { skipNull: true },
   );
 }
+
+interface assingBadgesParamsType {
+  criteria: {
+    type: keyof typeof BADGE_CRITERIA;
+    count: Number;
+  }[];
+}
+export const assignBadges = (params: assingBadgesParamsType) => {
+  const badgeCounts: BadgeCounts = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0,
+  };
+  const { criteria } = params;
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels: any = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
+};

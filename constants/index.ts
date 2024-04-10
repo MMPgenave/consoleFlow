@@ -58,12 +58,12 @@ export const sidebarLinks: SidebarLink[] = [
 ];
 export const BADGE_CRITERIA = {
   QUESTION_COUNT: {
-    BRONZE: 10,
+    BRONZE: 4,
     SILVER: 50,
     GOLD: 100,
   },
   ANSWER_COUNT: {
-    BRONZE: 10,
+    BRONZE: 4,
     SILVER: 50,
     GOLD: 100,
   },

@@ -25,11 +25,22 @@ function StatsCard({ imgUrl, title, value }: StatsCardPropsType) {
 interface StatsPropsType {
   NumberOfQuestion: number;
   NumberOfAnswer: number;
+  silverBadge: number;
+  bronzeBadge: number;
+  goldBadge: number;
+  reputation: number;
 }
-const Stats = ({ NumberOfQuestion, NumberOfAnswer }: StatsPropsType) => {
+const Stats = ({
+  NumberOfQuestion,
+  NumberOfAnswer,
+  silverBadge,
+  bronzeBadge,
+  goldBadge,
+  reputation,
+}: StatsPropsType) => {
   return (
     <div className="mt-10">
-      <h4 className="h3-semibold text-dark200_light900">وضعیت</h4>
+      <h4 className="h3-semibold text-dark200_light900">شهرت - {reputation}</h4>
       <div className="mt-5 grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-4">
         <div
           className="light-border background-light900_dark300 flex 
@@ -37,33 +48,17 @@ const Stats = ({ NumberOfQuestion, NumberOfAnswer }: StatsPropsType) => {
         p-6 shadow-light-300 dark:shadow-dark-200"
         >
           <div>
-            <div className="paragraph-semibold text-dark200_light900">
-              {formatNumber(NumberOfQuestion)}
-            </div>
+            <div className="paragraph-semibold text-dark200_light900">{formatNumber(NumberOfQuestion)}</div>
             <div className="body-medium text-dark400_light700">سوال</div>
           </div>
           <div>
-            <div className="paragraph-semibold text-dark200_light900">
-              {formatNumber(NumberOfAnswer)}
-            </div>
+            <div className="paragraph-semibold text-dark200_light900">{formatNumber(NumberOfAnswer)}</div>
             <div className="body-medium text-dark400_light700">پاسخ</div>
           </div>
         </div>
-        <StatsCard
-          imgUrl={"/assets/icons/gold-medal.svg"}
-          value={0}
-          title={"نشان طلا"}
-        />
-        <StatsCard
-          imgUrl={"/assets/icons/silver-medal.svg"}
-          value={0}
-          title={"نشان نقره"}
-        />
-        <StatsCard
-          imgUrl={"/assets/icons/bronze-medal.svg"}
-          value={0}
-          title={"نشان برنز"}
-        />
+        <StatsCard imgUrl={"/assets/icons/gold-medal.svg"} value={goldBadge} title={"نشان طلا"} />
+        <StatsCard imgUrl={"/assets/icons/silver-medal.svg"} value={silverBadge} title={"نشان نقره"} />
+        <StatsCard imgUrl={"/assets/icons/bronze-medal.svg"} value={bronzeBadge} title={"نشان برنز"} />
       </div>
     </div>
   );

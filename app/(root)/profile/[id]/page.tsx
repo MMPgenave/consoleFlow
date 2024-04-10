@@ -72,6 +72,10 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
       <Stats
         NumberOfQuestion={result!.NumberOfQuestionAskedByThisUser}
         NumberOfAnswer={result!.NumberOfAnsweredQuestionByThisUser}
+        bronzeBadge={result!.badgeCounts.BRONZE}
+        silverBadge={result!.badgeCounts.SILVER}
+        goldBadge={result!.badgeCounts.GOLD}
+        reputation={result!.reputation}
       />
       <div className="mt-10 flex items-start gap-10 max-sm:flex-col">
         <Tabs dir="rtl" defaultValue="پست های برتر" className="w-[60%]   max-sm:w-full">

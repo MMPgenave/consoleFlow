@@ -16,6 +16,8 @@ import { revalidatePath } from "next/cache";
 import { Question } from "@/database/question.model";
 import { Tag } from "@/database/tag.model";
 import { Answer } from "@/database/answer.model";
+import { BadgeCriteriaType } from "@/types";
+import { assignBadges } from "@/utils";
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
@@ -213,19 +215,49 @@ export async function getUserInfo(params: any) {
       console.log(`No user found with this clerkId:${userId}`);
       return;
     }
-    const { _id } = user;
+    const { _id,reputation } = user;
     const QuestionsAskedByThisUser = await Question.find({
       author: _id,
     }).populate({ path: "tags", model: Tag });
+    console.log(`ques:${QuestionsAskedByThisUser}`);
+
+    // calculte the total upvotes of questions
+    let totalUpvotesEarnedByAskingQuestions = 0;
+    QuestionsAskedByThisUser.forEach((question) => {
+      totalUpvotesEarnedByAskingQuestions += question.upvotes.length;
+    });
+
+    // calculte the total views of questions
+    let totalQuestionsViews = 0;
+    QuestionsAskedByThisUser.forEach((question) => {
+      totalQuestionsViews += question.views;
+    });
 
     const AnsweredQuestionsByThisUser = await Answer.find({
       author: _id,
     });
+    // calculte the total upvotes of answers
+    let totalUpvotesEarnedByAnsweringQuestions = 0;
+    AnsweredQuestionsByThisUser.forEach((answer) => {
+      totalUpvotesEarnedByAnsweringQuestions += answer.upvotes.length;
+    });
+
+    const criteria = [
+      { type: "QUESTION_COUNT" as BadgeCriteriaType, count: QuestionsAskedByThisUser.length },
+      { type: "ANSWER_COUNT" as BadgeCriteriaType, count: AnsweredQuestionsByThisUser.length },
+      { type: "QUESTION_UPVOTES" as BadgeCriteriaType, count: totalUpvotesEarnedByAskingQuestions || 0 },
+      { type: "ANSWER_UPVOTES" as BadgeCriteriaType, count: totalUpvotesEarnedByAnsweringQuestions || 0 },
+      { type: "TOTAL_VIEWS" as BadgeCriteriaType, count: totalQuestionsViews || 0 },
+    ];
+
+    const badgeCounts = assignBadges({ criteria });
     return {
       questions: QuestionsAskedByThisUser,
       user,
       NumberOfQuestionAskedByThisUser: QuestionsAskedByThisUser.length,
       NumberOfAnsweredQuestionByThisUser: AnsweredQuestionsByThisUser.length,
+      badgeCounts,
+      reputation,
     };
   } catch (error) {
     console.error(error);

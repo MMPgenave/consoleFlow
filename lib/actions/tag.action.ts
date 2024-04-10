@@ -117,9 +117,9 @@ export async function getHotTags() {
     connectToDataBase();
 
     const tags = await Tag.aggregate([
-      { $project: { text: 1, numberOfQuestions: { $size: "$inQuestionsUsed" } } },
-      { $sort: { numberOfQuestions: -1 } },
-      { $limit: 5 },
+      { $project: { text: 1, numberOfQuestions: { $size: "$inQuestionsUsed" } } }, // project stage
+      { $sort: { numberOfQuestions: -1 } }, // sort stage
+      { $limit: 5 }, // limit stage
     ]);
     return { tags };
   } catch (error) {
