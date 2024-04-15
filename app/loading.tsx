@@ -62,12 +62,16 @@ export default function Loading() {
               className="background-light800_darkgradient mt-6 flex 
                           h-12 w-full  rounded-md"
             />
+            <Skeleton
+              className="background-light800_darkgradient mt-4 flex 
+                          h-12 w-full  rounded-md sm:hidden"
+            />
 
             <div className="mt-14 flex flex-wrap gap-2 max-sm:hidden">
-              <Skeleton className="background-light800_darkgradient  h-[40px] w-[120px]  rounded-md" />
-              <Skeleton className="background-light800_darkgradient  h-[40px] w-[120px]  rounded-md" />
-              <Skeleton className="background-light800_darkgradient  h-[40px] w-[120px]  rounded-md" />
-              <Skeleton className="background-light800_darkgradient  h-[40px] w-[120px]  rounded-md" />
+              <Skeleton className="background-light800_darkgradient  h-[50px] w-[120px]  rounded-md" />
+              <Skeleton className="background-light800_darkgradient  h-[50px] w-[120px]  rounded-md" />
+              <Skeleton className="background-light800_darkgradient  h-[50px] w-[120px]  rounded-md" />
+              <Skeleton className="background-light800_darkgradient  h-[50px] w-[120px]  rounded-md" />
             </div>
             <div className=" mt-10 flex flex-col gap-3">
               <Skeleton className="background-light800_darkgradient  h-[185px] w-full  rounded-md" />
