@@ -2,13 +2,7 @@
 import Image from "next/image";
 import { answersToQuestion } from "@/lib/actions/answer.action";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Editor } from "@tinymce/tinymce-react";
 import * as z from "zod";
@@ -55,29 +49,19 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
   return (
     <div className="mt-10">
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
-        <h4 className="text-dark400_light800 paragraph-semibold ">
-          جوابتون رو اینجا بنویسید
-        </h4>
+        <h4 className="text-dark400_light800 paragraph-semibold ">جوابتون رو اینجا بنویسید</h4>
         <Button
           // eslint-disable-next-line tailwindcss/no-custom-classname
           className="light-border-2 btn flex w-fit 
           gap-1.5 rounded-md bg-gray-100 px-4 
          py-2.5 text-primary-500 shadow-none"
         >
-          <Image
-            src="/assets/icons/stars.svg"
-            alt="star"
-            width={12}
-            height={12}
-          />
-          پاسخ هوش مصنوعی ایجاد کنید{" "}
+          <Image src="/assets/icons/stars.svg" alt="star" width={12} height={12} />
+          پاسخ هوش مصنوعی ایجاد کنید
         </Button>
       </div>
       <Form {...form}>
-        <form
-          className="mt-12 flex w-full flex-col items-start gap-10 "
-          onSubmit={form.handleSubmit(hanlderSubmit)}
-        >
+        <form className="mt-12 flex w-full flex-col items-start gap-10 " onSubmit={form.handleSubmit(hanlderSubmit)}>
           <FormField
             control={form.control}
             name="answer"
@@ -102,8 +86,7 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
                         "undo redo |  " +
                         "codesample | bold italic forecolor | alignleft aligncenter |" +
                         "alignright alignjustify | bullist numlist ",
-                      content_style:
-                        "body { font-family:'yekan-bakh'; font-size:14px; direction: rtl; }",
+                      content_style: "body { font-family:'yekan-bakh'; font-size:14px; direction: rtl; }",
                       // skin: mode === "dark" ? "oxide-dark" : "dark",
                       // content_css: mode === "dark" ? "dark" : "light",
                     }}
