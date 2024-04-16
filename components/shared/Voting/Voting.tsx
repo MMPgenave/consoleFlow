@@ -49,11 +49,12 @@ const Voting = ({
   async function voteHandler(action: string) {
     try {
       if (!userId) {
-        return;
         toast({
           title:  "لطفا وارد حساب کاربری خود شوید",
           description:"برای رای دادن باید وارد حساب کاربری شوید",
         })
+        return;
+    
       }
       if (action === "upvote") {
         if (type === "Question") {
