@@ -9,8 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import { viewQuestion } from "@/lib/actions/interaction.action";
-import { useToast } from "@/components/ui/use-toast"
-
+import { toast } from "@/components/ui/use-toast";
 interface Prop {
   type: string;
   ItemId: string;
@@ -35,7 +34,6 @@ const Voting = ({
 }: Prop) => {
   const path = usePathname();
   const router = useRouter();
-  const { toast } = useToast()
 
   useEffect(() => {
     if (type === "Question") {
@@ -49,11 +47,11 @@ const Voting = ({
   async function voteHandler(action: string) {
     try {
       if (!userId) {
-        toast({
+     
+        return    toast({
           title:  "لطفا وارد حساب کاربری خود شوید",
           description:"برای رای دادن باید وارد حساب کاربری شوید",
         })
-        return;
     
       }
       if (action === "upvote") {
@@ -65,10 +63,7 @@ const Voting = ({
             hasupVoted: hasUpvoted,
             hasdownVoted: hasDownvoted,
           });
-          toast({
-            title:  "ایول که به این سوال رای دادی",
-            description:"سوال با موفقیت رای دادی",
-          })
+         
         } else if (type === "Answer") {
           await upvoteAnswer({
             answerId: JSON.parse(ItemId),
@@ -78,8 +73,11 @@ const Voting = ({
             hasdownVoted: hasDownvoted,
           });
         }
-        // show a toast
-        return;
+        
+        return  toast({
+          title:  `رای ${!hasUpvoted ? "داده شد" : "حذف شد"}`,
+          variant: !hasUpvoted ? "success" : "destructive",
+        })
       }
       if (action === "downvote") {
         if (type === "Question") {
