@@ -17,20 +17,15 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
   const { author, tags, title, content, createdAt, answers, views, upvotes, _id, downvotes } = result?.question;
   const { userId } = auth();
   const mongoUser = await getUserById({ userId: userId! });
+  if(!mongoUser) {
+    console.log('fjuck')
+  }
 
-  let hasUpvoted: boolean = false;
+  const hasUpvoted: boolean  = mongoUser ? upvotes.includes(mongoUser._id) : false;
 
-  upvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasUpvoted = true;
-    }
-  });
-  let hasDownvoted: boolean = false;
-  downvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasDownvoted = true;
-    }
-  });
+
+  const hasDownvoted: boolean = mongoUser ? downvotes.includes(mongoUser._id) : false;
+
   return (
     <>
       <div className="flex w-full flex-col justify-start ">
@@ -43,9 +38,9 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
             <Voting
               type="Question"
               ItemId={JSON.stringify(_id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined}
               upvoteNumber={upvotes.length}
-              hasUpvoted={hasUpvoted!}
+              hasUpvoted={hasUpvoted}
               downvotes={downvotes.length}
               hasDownvoted={hasDownvoted}
               showSaveIcon={true}

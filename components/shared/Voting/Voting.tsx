@@ -13,7 +13,7 @@ import { toast } from "@/components/ui/use-toast";
 interface Prop {
   type: string;
   ItemId: string;
-  userId: string;
+  userId: string | undefined;
   upvoteNumber: string;
   hasUpvoted: boolean;
   downvotes: number;
