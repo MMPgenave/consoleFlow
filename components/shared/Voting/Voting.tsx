@@ -77,8 +77,8 @@ const Voting = ({
         }
         
         return  toast({
-          title:  `رای ${!hasUpvoted ? "داده شد" : "حذف شد"}`,
-          variant: !hasUpvoted ? "default" : "destructive",
+          title:  `رای ${hasUpvoted ? "داده شد" : "حذف شد"}`,
+          variant: hasUpvoted ? "default" : "destructive",
         })
       }
       if (action === "downvote") {
@@ -100,8 +100,8 @@ const Voting = ({
           });
         }
         return  toast({
-          title:  `رای ${!hasDownvoted ? "داده شد" : "حذف شد"}`,
-          variant: !hasDownvoted ? "default" : "destructive",
+          title:  `رای ${hasDownvoted ? "داده شد" : "حذف شد"}`,
+          variant: hasDownvoted ? "default" : "destructive",
         })
       }
     } catch (error) {
