@@ -44,6 +44,9 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
     } finally {
       setIsAnswering(false);
     }
+
+  if(!userId){
+    return <div>To answer a Question You have to login</div>
   }
 
   return (

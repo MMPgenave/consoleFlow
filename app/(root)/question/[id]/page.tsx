@@ -44,7 +44,7 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
               downvotes={downvotes.length}
               hasDownvoted={hasDownvoted}
               showSaveIcon={true}
-              isSaved={mongoUser.saved.includes(_id)}
+              isSaved={mongoUser ? mongoUser.saved.includes(_id) : false}
             />
           </div>
         </div>
@@ -80,9 +80,9 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
         })}
       </div>
 
-      <AllAnswers questionId={params.id} userId={JSON.stringify(mongoUser._id)} filter={searchParams.filter} />
+      <AllAnswers questionId={params.id}  filter={searchParams.filter} />
 
-      <AnswersToQuestion questionId={params.id} userId={JSON.stringify(mongoUser._id)} />
+      <AnswersToQuestion questionId={params.id} userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined} />
     </>
   );
 }

@@ -6,11 +6,10 @@ import NoResult from "../NoResult/NoResult";
 
 interface Props {
   questionId: string;
-  userId: string;
   page?: number;
   filter?: string;
 }
-export default async function AllAnswers({ questionId, userId, page, filter }: Props) {
+export default async function AllAnswers({ questionId,  page, filter }: Props) {
   const results = await getAllAnswers({ questionId, sortBy: filter });
 
   return (
