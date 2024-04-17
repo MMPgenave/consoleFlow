@@ -78,7 +78,7 @@ const Voting = ({
         
         return  toast({
           title:  `رای ${!hasUpvoted ? "داده شد" : "حذف شد"}`,
-          variant: !hasUpvoted ? "success" : "destructive",
+          variant: !hasUpvoted ? "default" : "destructive",
         })
       }
       if (action === "downvote") {
@@ -99,7 +99,10 @@ const Voting = ({
             hasdownVoted: hasDownvoted,
           });
         }
-        // show a toast
+        return  toast({
+          title:  `رای ${!hasDownvoted ? "داده شد" : "حذف شد"}`,
+          variant: !hasDownvoted ? "default" : "destructive",
+        })
       }
     } catch (error) {
       console.error(`error in upvote function is :${error}`);
@@ -117,7 +120,6 @@ const Voting = ({
       console.error(`error in saveThisQuestion function is :${error}`);
     }
    }else {
-    console.log('کیرخر')
     return toast({
       title: "نمیتونی سوال رو ذخیره کنی",
       description:"برای ذخیره سوال  باید وارد حساب کاربری شوید",
