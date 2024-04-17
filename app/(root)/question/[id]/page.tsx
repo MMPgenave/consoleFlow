@@ -17,9 +17,9 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
   const { author, tags, title, content, createdAt, answers, views, upvotes, _id, downvotes } = result?.question;
   const { userId } = auth();
   const mongoUser = await getUserById({ userId: userId! });
-  if(!mongoUser) {
-    console.log('fjuck')
-  }
+  console.log( `mongokar is :${mongoUser}`)
+
+
 
   const hasUpvoted: boolean  = mongoUser ? upvotes.includes(mongoUser._id) : false;
 

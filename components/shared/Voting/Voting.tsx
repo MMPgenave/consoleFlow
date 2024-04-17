@@ -32,11 +32,12 @@ const Voting = ({
   isSaved,
   showSaveIcon,
 }: Prop) => {
+  console.log(`userId in voting is :${ typeof userId}`)
   const path = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    if (type === "Question") {
+    if (type === "Question" && userId) {
       viewQuestion({
         userId: userId ? JSON.parse(userId) : undefined,
         questionId: JSON.parse(ItemId),
@@ -51,6 +52,7 @@ const Voting = ({
         return    toast({
           title:  "لطفا وارد حساب کاربری خود شوید",
           description:"برای رای دادن باید وارد حساب کاربری شوید",
+         
         })
     
       }
@@ -104,6 +106,7 @@ const Voting = ({
     }
   }
   async function saveThisQuestion() {
+   if(userId){
     try {
       await toggleSaveQuestion({
         questionId: JSON.parse(ItemId),
@@ -113,6 +116,14 @@ const Voting = ({
     } catch (error) {
       console.error(`error in saveThisQuestion function is :${error}`);
     }
+   }else {
+    console.log('کیرخر')
+    return toast({
+      title: "نمیتونی سوال رو ذخیره کنی",
+      description:"برای ذخیره سوال  باید وارد حساب کاربری شوید",
+     
+    })
+   }
   }
   return (
     <div className="flex items-center gap-5">
