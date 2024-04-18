@@ -19,18 +19,25 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
   const mongoUser = await getUserById({ userId: userId! });
 
   let hasUpvoted: boolean = false;
-
-  upvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasUpvoted = true;
-    }
-  });
   let hasDownvoted: boolean = false;
-  downvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasDownvoted = true;
-    }
-  });
+
+  if (mongoUser) {
+    upvotes.forEach((vote: any) => {
+      console.log(typeof JSON.stringify(mongoUser._id));
+      if (JSON.stringify(vote._id) === JSON.stringify(mongoUser._id)) {
+        hasUpvoted = true;
+      }
+    });
+    downvotes.forEach((downvote: any) => {
+      if (JSON.stringify(downvote._id) === JSON.stringify(mongoUser._id)) {
+        hasDownvoted = true;
+      }
+    });
+  }
+
+  console.log(`hasUpvoted:${hasUpvoted}
+  hasDownvoted:${hasDownvoted}`);
+
   return (
     <>
       <div className="flex w-full flex-col justify-start ">
@@ -43,13 +50,13 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
             <Voting
               type="Question"
               ItemId={JSON.stringify(_id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined}
               upvoteNumber={upvotes.length}
-              hasUpvoted={hasUpvoted!}
+              hasUpvoted={hasUpvoted}
               downvotes={downvotes.length}
               hasDownvoted={hasDownvoted}
               showSaveIcon={true}
-              isSaved={mongoUser.saved.includes(_id)}
+              isSaved={mongoUser ? mongoUser.saved.includes(_id) : false}
             />
           </div>
         </div>
@@ -85,9 +92,9 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
         })}
       </div>
 
-      <AllAnswers questionId={params.id} userId={JSON.stringify(mongoUser._id)} filter={searchParams.filter} />
+      <AllAnswers questionId={params.id} filter={searchParams.filter} />
 
-      <AnswersToQuestion questionId={params.id} userId={JSON.stringify(mongoUser._id)} />
+      <AnswersToQuestion questionId={params.id} userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined} />
     </>
   );
 }

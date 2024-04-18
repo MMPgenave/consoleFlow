@@ -47,6 +47,10 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
     }
   }
 
+  if(!userId){
+    return <div>To answer a Question You have to login</div>
+  }
+
   return (
     <div className="mt-10">
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -112,3 +116,7 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
     </div>
   );
 }
+
+
+
+

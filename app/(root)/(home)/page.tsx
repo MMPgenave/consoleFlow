@@ -18,7 +18,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   return (
     <main className="">
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
-        <div className="h1-bold text-dark100_light900">همه سوالات</div>
+        <div className="h1-bold text-dark100_light900">همه سوالاتت</div>
         <Link
           href={"/ask-question"}
           className="primary-gradient self-end rounded-md border  px-6 py-3 text-lg text-slate-100 dark:border-none"
