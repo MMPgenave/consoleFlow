@@ -8,6 +8,11 @@ import NoResult from "@/components/shared/NoResult/NoResult";
 import { getAllQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "خانه | توسعه جریان",
+  description: "شبکه اجتماعی شامل 1000000+ کاربر است. به ما ملحق شوید.",
+};
 export default async function Home({ searchParams }: SearchParamsProps) {
   const results = await getAllQuestions({
     searchQuery: searchParams.q,
