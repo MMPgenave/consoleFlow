@@ -54,7 +54,7 @@ const QuestionCard = ({ question, clerkId }: PropType) => {
         })}
       </div>
 
-      <div className="mt-6 flex w-full flex-wrap items-center justify-between">
+      <div className="mt-6 flex w-full flex-wrap items-center justify-between max-lg:gap-3">
         <Metric
           imgUrl={question.author.picture}
           text={question.author.name}
@@ -63,27 +63,29 @@ const QuestionCard = ({ question, clerkId }: PropType) => {
           textClasses="body-medium text-dark400_light700"
           href={`/profile/${question.author.clerkId}`}
         />
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          text="پسند "
-          isAuthor={false}
-          textClasses="small-regular text-dark400_light800"
-          value={formatNumber(question.upvotes.length)}
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          text="جواب ها"
-          isAuthor={false}
-          textClasses="small-regular text-dark400_light800"
-          value={formatNumber(question.answers.length)}
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          text=" بازدید"
-          isAuthor={false}
-          textClasses="small-regular text-dark400_light800"
-          value={formatNumber(question.views)}
-        />
+        <div className="flex items-center gap-4">
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            text="پسند "
+            isAuthor={false}
+            textClasses="small-regular text-dark400_light800"
+            value={formatNumber(question.upvotes.length)}
+          />
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            text="جواب ها"
+            isAuthor={false}
+            textClasses="small-regular text-dark400_light800"
+            value={formatNumber(question.answers.length)}
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            text=" بازدید"
+            isAuthor={false}
+            textClasses="small-regular text-dark400_light800"
+            value={formatNumber(question.views)}
+          />
+        </div>
       </div>
     </div>
   );

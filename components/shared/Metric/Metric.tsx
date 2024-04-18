@@ -10,32 +10,19 @@ interface MetricType {
   href?: string;
 }
 
-const Metric = ({
-  imgUrl,
-  text,
-  isAuthor,
-  textClasses,
-  value,
-  href = "/",
-}: MetricType) => {
+const Metric = ({ imgUrl, text, isAuthor, textClasses, value, href = "/" }: MetricType) => {
   const MetricContent = (
     <div className="flex items-center gap-1">
       <Image
         src={imgUrl}
-        width={15}
-        height={15}
+        width={isAuthor ? 35 : 15}
+        height={isAuthor ? 35 : 15}
         alt={text}
         className={`${isAuthor && "rounded-full object-cover"}`}
       />
       <div className="flex items-center gap-1">
         <div className={`${textClasses}`}>{text}</div>
-        <div
-          className={`small-regular line-clamp-1 ${textClasses} ${
-            isAuthor && "max-sm:hidden"
-          }`}
-        >
-          {value}
-        </div>
+        <div className={`small-regular line-clamp-1 ${textClasses} ${isAuthor && "max-sm:hidden"}`}>{value}</div>
       </div>
     </div>
   );
