@@ -9,6 +9,8 @@ import { getAllQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { Metadata } from "next";
+import Head from "next/head";
+
 export const metadata: Metadata = {
   title: "خانه | توسعه جریان",
   description: "شبکه اجتماعی شامل 1000000+ کاربر است. به ما ملحق شوید.",
@@ -52,6 +54,16 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   });
   return (
     <main className="">
+      <Head>
+        <title>Social Media Preview</title>
+        <meta property="og:url" content="https://tourmaline-treacle-845d94.netlify.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="2747726002141483" />
+        <meta property="og:title" content="title" />
+        <meta name="twitter:card" content="summary" />
+        <meta property="og:description" content="Hurray!! Yes Social Media Preview is Working" />
+        <meta property="og:image" content="/assets/image/jak.png" />
+      </Head>
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
         <div className="h1-bold text-dark100_light900">همه سوالاتت</div>
         <Link
