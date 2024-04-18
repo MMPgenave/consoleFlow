@@ -32,7 +32,7 @@ export default function ParseHTML({ data }: Props) {
     Prism.highlightAll();
   }, []);
   return (
-    <div className="mt-8" dir="ltr">
+    <div className="markdown mt-8 w-full min-w-full" dir="ltr">
       {parse(data)}
     </div>
   );

@@ -1,19 +1,15 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedOut, useAuth } from "@clerk/nextjs";
 
 const MobileNavigationBar = () => {
   const path = usePathname();
+  const { userId } = useAuth();
 
   return (
     <Sheet>
@@ -26,46 +22,38 @@ const MobileNavigationBar = () => {
           width={36}
         />
       </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="background-light900_dark200 border-none"
-      >
+      <SheetContent side="right" className="background-light900_dark200 border-none">
         <SheetClose asChild>
           <Link className="flex items-center gap-2" href="/">
-            <Image
-              src="/assets/images/site-logo.svg"
-              alt="logo"
-              width={25}
-              height={25}
-            />
+            <Image src="/assets/images/site-logo.svg" alt="logo" width={25} height={25} />
             <p className="h3-bold text-dark100_light900  ">
               توسعه<span className="mr-1 text-primary-500">جریان</span>
             </p>
           </Link>
         </SheetClose>
 
-        <div className="flex h-full w-[80%] flex-col gap-2   pt-16">
+        <div className="flex h-full w-4/5 flex-col gap-2   pt-16">
           {sidebarLinks.map((link) => {
-            const { imgURL, route, label } = link;
+            let { imgURL, route, label } = link;
+            if (route === "/profile") {
+              if (userId) {
+                route = `${route}/${userId}`;
+              } else {
+                return null;
+              }
+            }
             return (
               <SheetClose key={label} asChild>
                 <Link
                   href={route}
-                  // eslint-disable-next-line tailwindcss/no-custom-classname
-                  className={`text-dark300_light900  flex items-center gap-4 rounded-lg  p-4 ${
-                    route === path ? "!primary-gradient " : ""
+                  className={`text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent p-4 ${
+                    route !== "/tags"
+                      ? route === path && "primary-gradient"
+                      : path.includes(route) && "primary-gradient"
                   }`}
                 >
-                  <Image
-                    src={imgURL}
-                    width={20}
-                    height={20}
-                    alt={label}
-                    className="invert-colors"
-                  />
-                  <div className="base-medium text-dark200_light800 ">
-                    {label}
-                  </div>
+                  <Image src={imgURL} width={20} height={20} alt={label} className="invert-colors" />
+                  <div className="base-medium text-dark200_light800 ">{label}</div>
                 </Link>
               </SheetClose>
             );

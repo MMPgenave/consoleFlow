@@ -29,7 +29,7 @@ const Pagination = ({ pageNumber, isNext }: PaginationPropsType) => {
       <Button
         onClick={() => handleNavigation("prev")}
         disabled={pageNumber === 1}
-        className="light-border-2  flex h-9 min-h-[36px] items-center justify-center gap-2 rounded-md border  px-4 py-2 text-sm font-medium text-slate-50 shadow transition-colors hover:bg-slate-200  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-50 dark:!text-gray-900 dark:hover:bg-slate-50/90 "
+        className="light-border-2 flex min-h-[36px] items-center  justify-center gap-2 border dark:bg-slate-700"
       >
         <p className="body-medium text-dark200_light800">قبلی</p>
       </Button>
@@ -39,7 +39,7 @@ const Pagination = ({ pageNumber, isNext }: PaginationPropsType) => {
       <Button
         disabled={!isNext}
         onClick={() => handleNavigation("next")}
-        className="light-border-2  flex h-9 min-h-[36px] items-center justify-center gap-2 rounded-md border  px-4 py-2 text-sm font-medium text-slate-50 shadow transition-colors hover:bg-slate-200  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-slate-50 dark:!text-gray-900 dark:hover:bg-slate-50/90 "
+        className="light-border-2 flex min-h-[36px] items-center  justify-center gap-2 border dark:bg-slate-700"
       >
         <p className="body-medium text-dark200_light800">بعدی</p>
       </Button>

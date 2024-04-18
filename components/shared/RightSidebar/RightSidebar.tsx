@@ -17,7 +17,6 @@ const RightSidebar = () => {
      p-4 pt-36 shadow-light-200  dark:shadow-none max-lg:w-20 sm:flex lg:w-[220px]"
     >
       <div className="flex flex-1 flex-col gap-6">
-        {" "}
         {sidebarLinks.map((link) => {
           let { imgURL, route, label } = link;
           if (route === "/profile") {
