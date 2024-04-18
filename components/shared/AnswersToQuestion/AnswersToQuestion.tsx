@@ -15,6 +15,7 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
   const editorRef = useRef(null);
   const path = usePathname();
   // const { mode } = useTheme()!;
+  console.log("just for testing netlify");
   const [answering, setIsAnswering] = useState(false);
 
   const form = useForm<z.infer<typeof answerSchema>>({
