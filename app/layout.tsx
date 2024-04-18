@@ -13,36 +13,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/icons/faq-svgrepo-com.svg",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Next.js",
-    description: "The React Framework for the Web",
-    siteId: "1467726470533754880",
-    creator: "@nextjs",
-    creatorId: "1467726470533754880",
-    images: ["https://nextjs.org/og.png"], // Must be an absolute URL
-  },
-  openGraph: {
-    title: "Next.js",
-    description: "The React Framework for the Web",
-    url: "https://nextjs.org",
-    siteName: "Next.js",
-    images: [
-      {
-        url: "https://nextjs.org/og.png", // Must be an absolute URL
-        width: 800,
-        height: 600,
-      },
-      {
-        url: "https://nextjs.org/og-alt.png", // Must be an absolute URL
-        width: 1800,
-        height: 1600,
-        alt: "My custom alt",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
