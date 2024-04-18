@@ -1,8 +1,5 @@
 "use client";
-import {
-  downvoteQuestion,
-  upvoteQuestion,
-} from "@/lib/actions/question.action";
+import { downvoteQuestion, upvoteQuestion } from "@/lib/actions/question.action";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,10 +29,9 @@ const Voting = ({
   isSaved,
   showSaveIcon,
 }: Prop) => {
-  console.log(`userId in voting is :${ typeof userId}`)
   const path = usePathname();
   const router = useRouter();
-
+  console.log(`man ray dadam:${hasUpvoted}`);
   useEffect(() => {
     if (type === "Question" && userId) {
       viewQuestion({
@@ -44,17 +40,14 @@ const Voting = ({
       });
       console.log("question viewed");
     }
-  }, [path, router, userId, ItemId]);
+  }, [path, router, userId, ItemId, type]);
   async function voteHandler(action: string) {
     try {
       if (!userId) {
-     
-        return    toast({
-          title:  "لطفا وارد حساب کاربری خود شوید",
-          description:"برای رای دادن باید وارد حساب کاربری شوید",
-         
-        })
-    
+        return toast({
+          title: "لطفا وارد حساب کاربری خود شوید",
+          description: "برای رای دادن باید وارد حساب کاربری شوید",
+        });
       }
       if (action === "upvote") {
         if (type === "Question") {
@@ -65,7 +58,6 @@ const Voting = ({
             hasupVoted: hasUpvoted,
             hasdownVoted: hasDownvoted,
           });
-         
         } else if (type === "Answer") {
           await upvoteAnswer({
             answerId: JSON.parse(ItemId),
@@ -75,11 +67,11 @@ const Voting = ({
             hasdownVoted: hasDownvoted,
           });
         }
-        
-        return  toast({
-          title:  `رای ${hasUpvoted ? "داده شد" : "حذف شد"}`,
-          variant: hasUpvoted ? "default" : "destructive",
-        })
+
+        return toast({
+          title: `رای ${!hasUpvoted ? "داده شد" : "حذف شد"}`,
+          variant: !hasUpvoted ? "default" : "destructive",
+        });
       }
       if (action === "downvote") {
         if (type === "Question") {
@@ -99,43 +91,47 @@ const Voting = ({
             hasdownVoted: hasDownvoted,
           });
         }
-        return  toast({
-          title:  `رای ${hasDownvoted ? "داده شد" : "حذف شد"}`,
+        return toast({
+          title: ` دیسلایک ${!hasDownvoted ? "داده شد" : "حذف شد"}`,
           variant: hasDownvoted ? "default" : "destructive",
-        })
+        });
       }
     } catch (error) {
       console.error(`error in upvote function is :${error}`);
     }
   }
   async function saveThisQuestion() {
-   if(userId){
-    try {
-      await toggleSaveQuestion({
-        questionId: JSON.parse(ItemId),
-        userId: JSON.parse(userId),
-        path,
+    if (userId) {
+      try {
+        await toggleSaveQuestion({
+          questionId: JSON.parse(ItemId),
+          userId: JSON.parse(userId),
+          path,
+        });
+        if (!isSaved) {
+          return toast({
+            title: "سوال به کلسکسیون اضافه شد",
+          });
+        } else {
+          return toast({
+            title: "سوال از کلسکسیون حذف شد",
+          });
+        }
+      } catch (error) {
+        console.error(`error in saveThisQuestion function is :${error}`);
+      }
+    } else {
+      return toast({
+        title: "نمیتونی سوال رو ذخیره کنی",
+        description: "برای ذخیره سوال  باید وارد حساب کاربری شوید",
       });
-    } catch (error) {
-      console.error(`error in saveThisQuestion function is :${error}`);
     }
-   }else {
-    return toast({
-      title: "نمیتونی سوال رو ذخیره کنی",
-      description:"برای ذخیره سوال  باید وارد حساب کاربری شوید",
-     
-    })
-   }
   }
   return (
     <div className="flex items-center gap-5">
       <div className="flex items-center gap-2.5">
         <Image
-          src={
-            hasUpvoted
-              ? "/assets/icons/upvoted.svg"
-              : "/assets/icons/upvote.svg"
-          }
+          src={hasUpvoted ? "/assets/icons/upvoted.svg" : "/assets/icons/upvote.svg"}
           width={18}
           height={18}
           alt="upvote"
@@ -148,11 +144,7 @@ const Voting = ({
       </div>
       <div className="flex items-center gap-1">
         <Image
-          src={
-            hasDownvoted
-              ? "/assets/icons/downvoted.svg"
-              : "/assets/icons/downvote.svg"
-          }
+          src={hasDownvoted ? "/assets/icons/downvoted.svg" : "/assets/icons/downvote.svg"}
           width={18}
           height={18}
           alt="down-vote"

@@ -17,12 +17,26 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
   const { author, tags, title, content, createdAt, answers, views, upvotes, _id, downvotes } = result?.question;
   const { userId } = auth();
   const mongoUser = await getUserById({ userId: userId! });
-  console.log( `mongokar is :${mongoUser}`)
 
-  const hasUpvoted: boolean  = mongoUser ? upvotes.includes(mongoUser._id) : false;
-  const hasDownvoted: boolean = mongoUser ? downvotes.includes(mongoUser._id) : false;
+  let hasUpvoted: boolean = false;
+  let hasDownvoted: boolean = false;
+
+  if (mongoUser) {
+    upvotes.forEach((vote: any) => {
+      console.log(typeof JSON.stringify(mongoUser._id));
+      if (JSON.stringify(vote._id) === JSON.stringify(mongoUser._id)) {
+        hasUpvoted = true;
+      }
+    });
+    downvotes.forEach((downvote: any) => {
+      if (JSON.stringify(downvote._id) === JSON.stringify(mongoUser._id)) {
+        hasDownvoted = true;
+      }
+    });
+  }
+
   console.log(`hasUpvoted:${hasUpvoted}
-  hasDownvoted:${hasDownvoted}`)
+  hasDownvoted:${hasDownvoted}`);
 
   return (
     <>
@@ -78,7 +92,7 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
         })}
       </div>
 
-      <AllAnswers questionId={params.id}  filter={searchParams.filter} />
+      <AllAnswers questionId={params.id} filter={searchParams.filter} />
 
       <AnswersToQuestion questionId={params.id} userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined} />
     </>
