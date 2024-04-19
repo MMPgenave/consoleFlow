@@ -33,8 +33,6 @@ export function EditProfileForm({ mongoUser }: Props) {
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
     setIsEditing(true);
     try {
-      console.log("fuck");
-      alert("flsf");
       await updateUser({
         clerkId: parsedMongoUser.clerkId,
         updateData: {
@@ -51,13 +49,12 @@ export function EditProfileForm({ mongoUser }: Props) {
       console.log(error);
     } finally {
       setIsEditing(false);
-      alert("flsf");
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className=" mt-9 flex w-full flex-col gap-9 lg:w-[60%]">
+      <form onSubmit={form.handleSubmit(onSubmit)} className=" mt-9 flex w-full flex-col gap-9 lg:w-3/5">
         <FormField
           control={form.control}
           name="fullName"
@@ -70,7 +67,7 @@ export function EditProfileForm({ mongoUser }: Props) {
               <FormControl>
                 <Input
                   {...field}
-                  className="no-focus paragraph-regular background-light700_dark300
+                  className="no-focus paragraph-regular background-light800_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                 />
               </FormControl>
@@ -93,7 +90,7 @@ export function EditProfileForm({ mongoUser }: Props) {
                 <>
                   <Input
                     {...field}
-                    className="no-focus paragraph-regular background-light700_dark300
+                    className="no-focus paragraph-regular background-light800_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
                 </>
@@ -114,7 +111,7 @@ export function EditProfileForm({ mongoUser }: Props) {
                 <>
                   <Input
                     {...field}
-                    className="no-focus paragraph-regular background-light700_dark300
+                    className="no-focus paragraph-regular background-light800_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
                 </>
@@ -135,7 +132,7 @@ export function EditProfileForm({ mongoUser }: Props) {
                 <>
                   <Input
                     {...field}
-                    className="no-focus paragraph-regular background-light700_dark300
+                    className="no-focus paragraph-regular background-light800_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
                 </>
@@ -158,7 +155,7 @@ export function EditProfileForm({ mongoUser }: Props) {
                 <>
                   <Textarea
                     {...field}
-                    className="no-focus paragraph-regular background-light700_dark300
+                    className="no-focus paragraph-regular background-light800_dark300
                     light-border-2 text-dark300_light700 min-h-[56px] border outline-none"
                   />
                 </>
@@ -175,7 +172,7 @@ export function EditProfileForm({ mongoUser }: Props) {
             // eslint-disable-next-line tailwindcss/no-custom-classname
             className=" !primary-gradient w-fit rounded-md px-4 py-2 !text-light-900"
           >
-            {isEditing ? "در حال ویرایش پروفایل..." : "ویرایشk پروفایل"}
+            {isEditing ? "در حال ویرایش پروفایل..." : "ویرایش پروفایل"}
           </Button>
         </div>
       </form>

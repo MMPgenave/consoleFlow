@@ -51,7 +51,7 @@ const SearchQuestions = ({ route, placeholder }: CustomType) => {
           setSearch(e.target.value);
         }}
         placeholder={placeholder}
-        className=" grow bg-inherit pr-1 outline-none dark:text-slate-200"
+        className=" text-dark400_light700 grow bg-inherit pr-1 outline-none dark:text-slate-200"
       />
     </div>
   );

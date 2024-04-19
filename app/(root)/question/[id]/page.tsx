@@ -86,7 +86,7 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
         </div>
       </div>
       <ParseHTML data={content} />
-      <div className="flex flex-wrap gap-4">
+      <div className="mt-3 flex flex-wrap gap-4">
         {tags.map((tag: any) => {
           return <Tag text={tag.text} showScore={false} url="/" key={tag._id} />;
         })}

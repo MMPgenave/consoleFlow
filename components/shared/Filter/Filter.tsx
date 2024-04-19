@@ -35,10 +35,14 @@ const Filter = ({ filterData, placeholder, otherClasses, height }: customType) =
         >
           <SelectValue className="flex-1 " placeholder={placeholder} dir="rtl" />
         </SelectTrigger>
-        <SelectContent className=" light-border background-light800_dark300 ">
+        <SelectContent className=" background-light900_dark300 border-none ">
           {filterData.map((item) => (
             <div key={item.value}>
-              <SelectItem value={item.value} dir="rtl" className="text-dark500_light700 cursor-pointer ">
+              <SelectItem
+                value={item.value}
+                dir="rtl"
+                className="text-dark500_light700 small-regular cursor-pointer focus:bg-light-800 dark:focus:bg-dark-400"
+              >
                 {item.name}
               </SelectItem>
             </div>

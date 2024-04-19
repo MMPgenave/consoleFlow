@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
           {themes.map((item) => (
             <MenubarItem
               key={item.label}
-              className="flex flex-row-reverse gap-4 hover:cursor-pointer"
+              className="flex cursor-pointer flex-row-reverse gap-4 hover:cursor-pointer focus:bg-light-800 dark:focus:bg-dark-400"
               onClick={() => {
                 setMode(item.label);
                 if (item.label !== "system") {
@@ -29,7 +29,7 @@ const ThemeSwitcher = () => {
               }}
             >
               <Image src={item.icon} width={16} height={16} alt={item.label} />
-              <div className={`body-semibold  ${mode === item.label ? "text-primary-500 " : "text-dark100_light900"}`}>
+              <div className={`body-semibold   ${mode === item.label ? "text-primary-500 " : "text-dark100_light900"}`}>
                 {item.value}
               </div>
             </MenubarItem>

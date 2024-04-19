@@ -11,25 +11,59 @@ import Stats from "@/components/shared/Stats/Stats";
 import QuestionTab from "@/components/shared/QuestionTab/QuestionTab";
 import AnswerTab from "@/components/shared/AnswerTab/AnswerTab";
 import Tag from "@/components/shared/Tag/Tag";
-import { ITag } from "@/database/tag.model";
 const ProfilePage = async ({ params, searchParams }: URLProps) => {
   const result = await getUserInfo({ userId: params.id });
   const { userId: clerkId } = auth();
 
   // extract all tags that this user used
-  const UserTags: ITag[] = [];
+  const UserTags: { text: string; id: string }[] = [];
   if (result!.questions.length) {
     const { questions } = result!;
 
     // add all question's tags to the "UserTags" variable
     for (let i = 0; i < questions.length; i++) {
       questions[i].tags.forEach((tag: any) => {
-        if (!UserTags.includes(tag.text)) {
-          UserTags.push(tag);
-        }
+        const { _id, text } = tag;
+        UserTags.push({ text, id: _id });
       });
     }
   }
+
+  // Create an object to store the count of each object
+  const countMap: any = {};
+  // Loop through the array
+  UserTags.forEach((item) => {
+    // Convert the object to a string to use it as a key in the countMap
+    const key = item.text;
+
+    // Check if the key exists in the countMap
+    if (countMap[key]) {
+      // Increment the count if the key exists
+      countMap[key]++;
+    } else {
+      // Initialize the count to 1 if the key doesn't exist
+      countMap[key] = 1;
+    }
+  });
+
+  // Create a Set to store unique elements
+  const uniqueSet = new Set();
+
+  // Create an array to store the result
+  const uniqueArray: { text: string; id: string }[] = [];
+
+  // Loop through the original array
+  UserTags.forEach((item) => {
+    // Convert the object to a string to check for uniqueness
+    const key = JSON.stringify(item);
+
+    // Check if the element is already in the set
+    if (!uniqueSet.has(key)) {
+      // If not, add it to the set and the result array
+      uniqueSet.add(key);
+      uniqueArray.push(item);
+    }
+  });
 
   return (
     <>
@@ -59,8 +93,8 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             {clerkId === result?.user.clerkId && (
               <Link href="/profile/edit">
                 <div
-                  className="paragraph-medium text-dark300_light900 flex min-h-[46px] min-w-[176px] justify-center rounded-lg bg-primary-100 
-                    px-4 py-3 "
+                  className="paragraph-medium  primary-gradient flex min-h-[46px] min-w-[176px] justify-center rounded-lg px-4 
+                    py-3 text-slate-100 hover:opacity-80"
                 >
                   ویرایش پروفایل
                 </div>
@@ -78,7 +112,7 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
         reputation={result!.reputation}
       />
       <div className="mt-10 flex items-start gap-10 max-sm:flex-col">
-        <Tabs dir="rtl" defaultValue="پست های برتر" className="w-[60%]   max-sm:w-full">
+        <Tabs dir="rtl" defaultValue="پست های برتر" className="w-3/5   max-sm:w-full">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1 ">
             <TabsTrigger value="top-posts" className=" bg-orange-50 text-orange-600">
               پست های برتر
@@ -104,8 +138,10 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
           <div className=" mt-4">
             {UserTags.length > 0 ? (
               <div className="flex flex-col gap-3">
-                {UserTags.map((tag: ITag) => {
-                  return <Tag key={tag._id} text={tag.text} showScore={true} score={2} url={`/${tag._id}`} />;
+                {uniqueArray.map((tag: any) => {
+                  return (
+                    <Tag key={tag.id} text={tag.text} showScore={true} score={countMap[tag.text]} url={`${tag.id}`} />
+                  );
                 })}
               </div>
             ) : (
