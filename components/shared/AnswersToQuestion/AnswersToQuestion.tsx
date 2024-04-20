@@ -10,12 +10,11 @@ import React, { useRef, useState } from "react";
 import { answerSchema } from "@/lib/validations/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
-// import { useTheme } from "@/context/ThemeProvider";
+import { toast } from "@/components/ui/use-toast";
+import Link from "next/link";
 export default function AnswersToQuestion({ questionId, userId }: any) {
   const editorRef = useRef(null);
   const path = usePathname();
-  // const { mode } = useTheme()!;
-  console.log("just for testing netlify");
   const [answering, setIsAnswering] = useState(false);
 
   const form = useForm<z.infer<typeof answerSchema>>({
@@ -27,7 +26,6 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
 
   async function hanlderSubmit(value: z.infer<typeof answerSchema>) {
     try {
-      console.log(value);
       setIsAnswering(true);
       await answersToQuestion({
         content: value.answer,
@@ -40,15 +38,31 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
+      return toast({
+        title: "پاسخ شما با موفقیت ثبت شد",
+      });
     } catch (error) {
       console.error("when submitting you answer an Error happend.");
+      return toast({
+        title: "در ثبت پاسخ شما مشکلی به وجود آمد",
+        description: "لطفا دوباره تلاش کنید",
+        variant: "destructive",
+      });
     } finally {
       setIsAnswering(false);
     }
   }
 
-  if(!userId){
-    return <div>To answer a Question You have to login</div>
+  if (!userId) {
+    return (
+      <div className="text-dark400_light800 paragraph-semibold mt-5 text-center">
+        برای پاسخ دان به سوال شما باید
+        <Link href="/sign-in" className="mx-1 text-primary-500">
+          وارد سایت
+        </Link>
+        شوید
+      </div>
+    );
   }
 
   return (
@@ -116,7 +130,3 @@ export default function AnswersToQuestion({ questionId, userId }: any) {
     </div>
   );
 }
-
-
-
-

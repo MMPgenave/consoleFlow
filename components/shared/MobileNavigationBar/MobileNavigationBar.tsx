@@ -22,7 +22,7 @@ const MobileNavigationBar = () => {
           width={36}
         />
       </SheetTrigger>
-      <SheetContent side="right" className="background-light900_dark200 border-none">
+      <SheetContent side="right" className="background-light900_dark200 border-none pb-4">
         <SheetClose asChild>
           <Link className="flex items-center gap-2" href="/">
             <Image src="/assets/images/site-logo.svg" alt="logo" width={25} height={25} />
@@ -32,7 +32,7 @@ const MobileNavigationBar = () => {
           </Link>
         </SheetClose>
 
-        <div className="flex h-full w-4/5 flex-col gap-2   pt-16">
+        <div className="flex w-4/5 flex-col gap-2   pt-14">
           {sidebarLinks.map((link) => {
             let { imgURL, route, label } = link;
             if (route === "/profile") {
@@ -61,7 +61,7 @@ const MobileNavigationBar = () => {
         </div>
 
         <SignedOut>
-          <div className="absolute inset-x-0 bottom-10 mx-auto flex w-[50%] flex-col  gap-2 ">
+          <div className="mx-auto mt-4 flex w-1/2 flex-col  gap-2    ">
             <SheetClose asChild>
               <Link
                 href={"/sign-in"}

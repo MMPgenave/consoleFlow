@@ -12,29 +12,31 @@ export default async function AnswerCard({ answer }: any) {
   const mongoUser = await getUserById({ userId: userId! });
 
   let hasUpvoted: boolean = false;
-
-  upvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasUpvoted = true;
-    }
-  });
   let hasDownvoted: boolean = false;
-  downvotes.forEach((user: any) => {
-    if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
-      hasDownvoted = true;
-    }
-  });
+  if (mongoUser) {
+    upvotes.forEach((user: any) => {
+      if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+        hasUpvoted = true;
+      }
+    });
+
+    downvotes.forEach((user: any) => {
+      if (JSON.stringify(user._id) === JSON.stringify(mongoUser._id)) {
+        hasDownvoted = true;
+      }
+    });
+  }
 
   return (
-    <div className=" ">
+    <div className="">
       <div className="flex justify-between">
         <Link href={`/profile/${author.clerkId}`} className="flex flex-1 items-start gap-1 sm:items-center">
           <Image
             className="rounded-full object-cover max-sm:mt-0.5"
             src={author.picture}
             alt={author.name}
-            width={18}
-            height={18}
+            width={35}
+            height={35}
           />
 
           <div className="flex flex-col sm:flex-row sm:items-center">
@@ -50,7 +52,7 @@ export default async function AnswerCard({ answer }: any) {
           <Voting
             type="Answer"
             ItemId={JSON.stringify(_id)}
-            userId={JSON.stringify(mongoUser._id)}
+            userId={mongoUser ? JSON.stringify(mongoUser._id) : undefined}
             upvoteNumber={upvotes.length}
             hasUpvoted={hasUpvoted!}
             downvotes={downvotes.length}

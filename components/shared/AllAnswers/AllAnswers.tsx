@@ -9,7 +9,7 @@ interface Props {
   page?: number;
   filter?: string;
 }
-export default async function AllAnswers({ questionId,  page, filter }: Props) {
+export default async function AllAnswers({ questionId, page, filter }: Props) {
   const results = await getAllAnswers({ questionId, sortBy: filter });
 
   return (
@@ -23,10 +23,13 @@ export default async function AllAnswers({ questionId,  page, filter }: Props) {
             <Filter filterData={AnswerFilters} placeholder="نوع فیلتر" otherClasses="flex" height="h-[50px]" />
           </div>
 
-          <div className="mt-5">
+          <div className="mt-5 flex flex-col gap-8">
             {results!.map((answer: any) => {
               return (
-                <article className="border-y py-10" key={answer._id}>
+                <article
+                  className=" dark:dark-gradient   rounded-md bg-light-900 px-4 py-3 shadow-light-100"
+                  key={answer._id}
+                >
                   <AnswerCard answer={answer} />
                 </article>
               );

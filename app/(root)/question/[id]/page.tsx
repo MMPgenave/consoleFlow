@@ -11,7 +11,6 @@ import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
 import Voting from "@/components/shared/Voting/Voting";
 import { URLProps } from "@/types";
-
 export default async function QuestionDetailsPage({ params, searchParams }: URLProps) {
   const result = await getQuestionById({ questionId: params.id });
   const { author, tags, title, content, createdAt, answers, views, upvotes, _id, downvotes } = result?.question;
@@ -43,7 +42,7 @@ export default async function QuestionDetailsPage({ params, searchParams }: URLP
       <div className="flex w-full flex-col justify-start ">
         <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2 ">
           <Link href={`/profile/${author.clerkId}`} className="flex items-center justify-start gap-1">
-            <Image className="rounded-full" src={author.picture} alt={author.name} width={22} height={22} />
+            <Image className="rounded-full" src={author.picture} alt={author.name} width={40} height={40} />
             <div className="paragraph-semibold text-dark300_light700 mt-1">{author.name}</div>
           </Link>
           <div className="flex justify-end">

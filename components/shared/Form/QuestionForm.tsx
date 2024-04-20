@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 interface Props {
   mongoUserId: string;
   type: string;
@@ -45,6 +46,10 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
         });
         // navigate to home page
         router.push("/");
+        // show toaster
+        return toast({
+          title: "سوال شما با موفقیت ثبت شد",
+        });
       }
       if (type === "edit") {
         await editQuestion({
@@ -55,9 +60,25 @@ export function QuestionForm({ mongoUserId, type, QuestionToBeEdited }: Props) {
         });
 
         router.push(`/question/${QuestionToBeEdited && JSON.parse(QuestionToBeEdited)._id}`);
+        return toast({
+          title: "سوال شما با موفقیت ویرایش شد",
+        });
       }
     } catch (error) {
       console.log(error);
+      if (type === "create") {
+        return toast({
+          title: "ثبت سوال با خطا مواجه شد",
+          description: "لطفا دوباره تلاش کنید",
+          variant: "destructive",
+        });
+      } else {
+        return toast({
+          title: "ویرایش سوال با خطا مواجه شد",
+          description: "لطفا دوباره تلاش کنید",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }

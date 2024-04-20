@@ -30,7 +30,7 @@ const RightSidebar = () => {
           return (
             <Link
               href={route}
-              className={`text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent p-4 ${
+              className={` text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent p-4 hover:opacity-80 ${
                 route !== "/tags" ? route === path && "primary-gradient" : path.includes(route) && "primary-gradient"
               }`}
               key={label}
@@ -51,17 +51,17 @@ const RightSidebar = () => {
         })}
       </div>
       <SignedOut>
-        <div className="text-dark200_light800 base-medium mt-4   flex flex-col  items-center gap-3 lg:px-8">
-          <Link href={"/sign-in"} className="lg:background-light900_dark300 rounded-lg px-4 py-2">
+        <div className="text-dark200_light800 base-medium mt-4   flex flex-col  items-center  lg:px-2">
+          <Link href={"/sign-in"} className="lg:background-light900_dark300 rounded-lg px-4 py-2 hover:opacity-80">
             <div className="flex gap-4">
               <Image src="/assets/icons/account.svg" width={20} height={20} className=" invert-colors" alt="sign-in" />
               <div className="primary-text-gradient hidden lg:block">ورود</div>
             </div>
           </Link>
-          <Link href={"/sign-up"} className="lg:background-light900_dark300 rounded-lg px-4 py-2">
+          <Link href={"/sign-up"} className="lg:background-light900_dark300 rounded-lg px-4 py-2 hover:opacity-80">
             <div className="flex gap-4">
               <Image src="/assets/icons/sign-up.svg" width={20} height={20} className="invert-colors" alt="sign-up" />
-              <div className="text-dark300_light900 hidden text-[16px] lg:block">ساخت حساب</div>
+              <div className="text-dark300_light900 hidden  lg:block">ساخت حساب</div>
             </div>
           </Link>
         </div>

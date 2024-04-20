@@ -31,7 +31,6 @@ const Voting = ({
 }: Prop) => {
   const path = usePathname();
   const router = useRouter();
-  console.log(`man ray dadam:${hasUpvoted}`);
   useEffect(() => {
     if (type === "Question" && userId) {
       viewQuestion({
