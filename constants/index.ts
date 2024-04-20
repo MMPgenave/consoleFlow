@@ -55,6 +55,11 @@ export const sidebarLinks: SidebarLink[] = [
     route: "/ask-question",
     label: "سوالی بپرس",
   },
+  {
+    imgURL: "/assets/icons/question.svg",
+    route: "/shop",
+    label: "کافه ",
+  },
 ];
 export const BADGE_CRITERIA = {
   QUESTION_COUNT: {

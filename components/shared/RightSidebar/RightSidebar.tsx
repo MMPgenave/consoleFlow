@@ -14,9 +14,9 @@ const RightSidebar = () => {
     <div
       className="custom-scrollbar background-light900_dark200 light-border sticky right-0 top-0 hidden 
     h-screen w-fit flex-col gap-5  overflow-y-auto   
-     p-4 pt-36 shadow-light-200  dark:shadow-none max-lg:w-20 sm:flex lg:w-[220px]"
+     p-4 pt-32 shadow-light-200  dark:shadow-none max-lg:w-20 sm:flex lg:w-[220px]"
     >
-      <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-1 flex-col gap-3">
         {sidebarLinks.map((link) => {
           let { imgURL, route, label } = link;
           if (route === "/profile") {
@@ -30,7 +30,7 @@ const RightSidebar = () => {
           return (
             <Link
               href={route}
-              className={` text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent p-4 hover:opacity-80 ${
+              className={` text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent px-4 py-3 hover:opacity-80 ${
                 route !== "/tags" ? route === path && "primary-gradient" : path.includes(route) && "primary-gradient"
               }`}
               key={label}
