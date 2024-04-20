@@ -9,7 +9,6 @@ import { getAllQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
 // import { Metadata } from "next";
-import CustomHead from "@/components/shared/CustomHead/CustomHead";
 
 // export const metadata: Metadata = {
 //   title: "خانه | توسعه جریان",
@@ -24,7 +23,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   });
   return (
     <>
-      <CustomHead title={"dar"} description={"dar"} image={"assets/images/rock.png"} />
+     
       <main className="">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
           <div className="h1-bold text-dark100_light900">همه سوالات</div>
