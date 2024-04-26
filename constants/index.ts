@@ -35,11 +35,7 @@ export const sidebarLinks: SidebarLink[] = [
     route: "/collection",
     label: "کلکسیون",
   },
-  {
-    imgURL: "/assets/icons/suitcase.svg",
-    route: "/jobs",
-    label: "پیدا کردن شغل",
-  },
+
   {
     imgURL: "/assets/icons/tag.svg",
     route: "/tags",
@@ -56,7 +52,7 @@ export const sidebarLinks: SidebarLink[] = [
     label: "سوالی بپرس",
   },
   {
-    imgURL: "/assets/icons/question.svg",
+    imgURL: "/assets/icons/coffee-shop.svg",
     route: "/shop",
     label: "کافه ",
   },

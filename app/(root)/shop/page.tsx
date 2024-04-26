@@ -7,8 +7,8 @@ import { URLProps } from "@/types";
 import React from "react";
 const Shop = async ({ searchParams }: URLProps) => {
   const result = await getDrinks({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
+    searchQuery: searchParams.q ? searchParams.q : "",
+    filter: searchParams.filter ? searchParams.filter : "",
   });
 
   return (
@@ -19,7 +19,7 @@ const Shop = async ({ searchParams }: URLProps) => {
         <Filter filterData={CocktailsFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />
       </div>
       <div className="mt-10">
-        {result?.drinks.length > 0 ? (
+        {result?.drinks ? (
           <div className="flex flex-wrap justify-center gap-6 ">
             {result?.drinks.map((drink: any) => {
               return <DrinkCard key={drink.idDrink} drink={drink} />;

@@ -16,7 +16,7 @@ const DrinkCard = ({ drink }: any) => {
         alt={strCategory}
         className="rounded-md object-contain max-sm:size-full"
       ></Image>
-      <h2 className="text-dark400_light800 h3-bold mt-6" dir="ltr">
+      <h2 className="text-dark400_light800 h3-bold mt-6  " dir="ltr">
         {strGlass} <span className="mx-[2px] text-primary-500">{strDrink}</span>{" "}
       </h2>
     </Link>
