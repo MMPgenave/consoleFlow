@@ -7,7 +7,7 @@ import Link from "next/link";
 import { URLProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
 
-export default async function Community({ params, searchParams }: URLProps) {
+export default async function Community({ searchParams }: URLProps) {
   const result = await getAllUser({
     searchQuery: searchParams.q,
     filter: searchParams.filter,

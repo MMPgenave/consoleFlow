@@ -34,3 +34,8 @@ export const GlobalSearchFilters = [
   { name: "کاربر", value: "user" },
   { name: "تگ", value: "tag" },
 ];
+
+export const CocktailsFilters = [
+  { name: "الکلی", value: "Alcoholic" },
+  { name: "غیر الکلی", value: "Non-Alcoholic" },
+];
