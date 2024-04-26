@@ -16,20 +16,8 @@ import { localization } from "@/constants/clerkConstant.js";
 // };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const title = "dar";
-  const description = "خخخخخخخخخخخخخخخخخخخخخ";
-  const image = "assets/images/rock.png";
   return (
     <html lang="fa" dir="rtl">
-      <head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL} />
-      </head>
       <body className="yekan-bakh">
         <ClerkProvider localization={localization}>
           <ThemeProvider>
