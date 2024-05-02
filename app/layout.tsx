@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/icons/faq-svgrepo-com.svg",
   },
+  openGraph: {
+    images: "/assets/images/auth-dark.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
