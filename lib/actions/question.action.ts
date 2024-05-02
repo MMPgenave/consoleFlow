@@ -83,7 +83,7 @@ export async function editQuestion(params: EditQuestionParams) {
 export async function getAllQuestions(params: GetQuestionsParams) {
   try {
     connectToDataBase();
-    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
     const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
@@ -104,6 +104,10 @@ export async function getAllQuestions(params: GetQuestionsParams) {
     if (filter === "frequent") {
       sortOption = { views: -1 };
     }
+    if (filter === "recommended") {
+      sortOption = { "author.reputation": -1 };
+    }
+
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })

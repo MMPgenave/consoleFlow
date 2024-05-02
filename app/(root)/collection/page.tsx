@@ -24,7 +24,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <div>
-      <h1 className="h1-bold text-dark100_light900"> سوالات ذخیره شده</h1>
+      <h1 className="h1-bold text-dark100_light900"> سوالات ذخیره شده شما </h1>
       <div className="mt-5 flex items-center gap-2 max-sm:flex-col max-sm:gap-3">
         <LocalSearch route="/collection" placeholder=" سوالات ذخیره شده رو جستجو کن..." />
         <Filter filterData={QuestionFilters} placeholder="فیلتری را انتخاب کنید" height="h-[50px]" />

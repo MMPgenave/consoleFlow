@@ -1,5 +1,5 @@
 import { GlobalSearchFilters } from "@/constants/Filter";
-import { formUrlQuery } from "@/utils";
+import { formUrlQuery, removeKeysFromQuery } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
@@ -19,10 +19,14 @@ const GlobalFilters = () => {
       router.push(newUrl, { scroll: false });
     } else {
       setActive("");
-      const newUrl = formUrlQuery({
+      // const newUrl = formUrlQuery({
+      //   params: searchParams.toString(),
+      //   key: "type",
+      //   value: null,
+      // });
+      const newUrl = removeKeysFromQuery({
         params: searchParams.toString(),
-        key: "type",
-        value: null,
+        keys: ["type"],
       });
       router.push(newUrl, { scroll: false });
     }

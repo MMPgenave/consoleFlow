@@ -51,8 +51,9 @@ export default async function Home({ searchParams }: SearchParamsProps) {
             />
           )}
         </div>
-
-        <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={results!.isNext} />
+        {results!.questions.length > 0 && (
+          <Pagination pageNumber={searchParams?.page ? +searchParams.page : 1} isNext={results!.isNext} />
+        )}
       </main>
     </>
   );

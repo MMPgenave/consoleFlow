@@ -34,6 +34,7 @@ const Search = () => {
     }, 300);
     return () => clearTimeout(delayDebounceFcn);
   }, [search, router, currentPath, searchParams, query]);
+
   useEffect(() => {
     setIsOpen(false);
     setSearch("");

@@ -9,11 +9,7 @@ import { globalSearch } from "@/lib/actions/general.action";
 const GlobalResult = () => {
   const searchParams = useSearchParams();
   const [isloading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([
-    { type: "question", id: 1, title: "Next.js Question" },
-    { type: "answer", id: 2, title: "React.js Question" },
-    { type: "tag", id: 3, title: "Next.js " },
-  ]);
+  const [result, setResult] = useState([]);
   const global = searchParams.get("global");
   const type = searchParams.get("type");
   useEffect(() => {
@@ -59,7 +55,7 @@ const GlobalResult = () => {
     >
       <GlobalFilters />
 
-      <div className="my-5 h-[1px] bg-light-700/50 dark:bg-dark-500/50" />
+      <div className="my-5 h-px bg-light-700/50 dark:bg-dark-500/50" />
       <div className="space-y-5 ">
         <p className="text-dark400_light900 paragraph-semibold px-5">برترین هم‌خوان</p>
         {isloading ? (

@@ -8,12 +8,14 @@ interface CustomType {
   placeholder: string;
 }
 
-const SearchQuestions = ({ route, placeholder }: CustomType) => {
+const Search = ({ route, placeholder }: CustomType) => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
   const router = useRouter();
   const currentPath = usePathname();
   const [search, setSearch] = useState(query || "");
+  console.log(`searchParam is :${searchParams}
+  path is :${currentPath}`);
   useEffect(() => {
     const delayDebounceFcn = setTimeout(() => {
       if (search) {
@@ -57,4 +59,4 @@ const SearchQuestions = ({ route, placeholder }: CustomType) => {
   );
 };
 
-export default SearchQuestions;
+export default Search;
