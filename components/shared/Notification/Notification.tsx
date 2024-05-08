@@ -7,11 +7,12 @@ import "@knocklabs/react/dist/index.css";
 import { useAuth } from "@clerk/nextjs";
 import { BellIcon } from "@heroicons/react/24/outline";
 
-const Notification = () => {
+const Notification = ({ userId }: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOnClient, setisOnClient] = useState(false);
   const notifButtonRef = useRef(null);
-  const { userId, sessionId } = useAuth();
+  const { sessionId } = useAuth();
+
   useEffect(() => {
     setisOnClient(true);
   }, []);

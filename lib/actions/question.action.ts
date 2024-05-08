@@ -23,7 +23,7 @@ export async function createQuestion(params: CreateQuestionParams) {
 
     const { title, content, tags, author, path } = params;
     const knockClient = new Knock(process.env.KNOCK_SECRET_KEY);
-
+    const mongoUser = await User.findById({ _id: author });
     // create the question
     const question = await Question.create({
       title,
@@ -60,8 +60,8 @@ export async function createQuestion(params: CreateQuestionParams) {
     await User.findByIdAndUpdate({ _id: author }, { $inc: { reputation: 5 } });
     const otherUsers = await User.find({ _id: { $ne: author } });
     await knockClient.notify("new-post", {
-      actor: JSON.stringify(author),
-      recipients: otherUsers.map((user) => user._id),
+      actor: mongoUser.clerkId,
+      recipients: otherUsers.map((user) => user.clerkId),
     });
 
     revalidatePath(path);
