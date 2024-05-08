@@ -7,7 +7,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import MobileNavigationBar from "../MobileNavigationBar/MobileNavigationBar";
 import GlobalSearchingSystem from "../search/GlobalSearch";
 import { usePathname } from "next/navigation";
-
+import Notification from "../Notification/Notification";
 const Navbar = () => {
   const currentPath = usePathname();
   return (
@@ -19,7 +19,7 @@ const Navbar = () => {
         </p>
       </Link>
       <GlobalSearchingSystem />
-      <div className="flex justify-between gap-5">
+      <div className="flex items-center justify-between gap-4">
         <ThemeSwitcher />
         <SignedIn>
           <UserButton
@@ -34,6 +34,7 @@ const Navbar = () => {
             }}
           />
         </SignedIn>
+        <Notification />
         <MobileNavigationBar />
       </div>
     </nav>

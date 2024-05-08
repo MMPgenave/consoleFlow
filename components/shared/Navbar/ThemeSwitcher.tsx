@@ -28,7 +28,7 @@ const ThemeSwitcher = () => {
                 }
               }}
             >
-              <Image src={item.icon} width={16} height={16} alt={item.label} />
+              <Image src={item.icon} width={30} height={30} alt={item.label} />
               <div className={`body-semibold   ${mode === item.label ? "text-primary-500 " : "text-dark100_light900"}`}>
                 {item.value}
               </div>

@@ -16,12 +16,13 @@ import {
 import { revalidatePath } from "next/cache";
 import { InteractionTow } from "@/database/interaction.model";
 import { FilterQuery } from "mongoose";
-
+import { Knock } from "@knocklabs/node";
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDataBase();
 
     const { title, content, tags, author, path } = params;
+    const knockClient = new Knock(process.env.KNOCK_SECRET_KEY);
 
     // create the question
     const question = await Question.create({
@@ -57,6 +58,12 @@ export async function createQuestion(params: CreateQuestionParams) {
     });
     // Increments author reputation by +5 for creating a question
     await User.findByIdAndUpdate({ _id: author }, { $inc: { reputation: 5 } });
+    const otherUsers = await User.find({ _id: { $ne: author } });
+    await knockClient.notify("new-post", {
+      actor: JSON.stringify(author),
+      recipients: otherUsers.map((user) => user._id),
+    });
+
     revalidatePath(path);
   } catch (error) {
     console.log(`Error in createQuestion :${error}`);

@@ -14,8 +14,7 @@ const Search = ({ route, placeholder }: CustomType) => {
   const router = useRouter();
   const currentPath = usePathname();
   const [search, setSearch] = useState(query || "");
-  console.log(`searchParam is :${searchParams}
-  path is :${currentPath}`);
+
   useEffect(() => {
     const delayDebounceFcn = setTimeout(() => {
       if (search) {
