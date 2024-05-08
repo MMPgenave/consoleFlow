@@ -31,7 +31,7 @@ const RightSidebar = () => {
             <Link
               href={route}
               className={` text-dark300_light900 flex items-center gap-4 rounded-lg bg-transparent px-4 py-3 hover:opacity-80 ${
-                route !== "/tags" ? route === path && "primary-gradient" : path.includes(route) && "primary-gradient"
+                route === "/" ? route === path && "primary-gradient" : path.includes(route) && "primary-gradient"
               }`}
               key={label}
             >

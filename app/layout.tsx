@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: "/assets/images/auth-dark.png",
   },
+  metadataBase: new URL("https://console-flow.vercel.app/"),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

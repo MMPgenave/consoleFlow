@@ -11,6 +11,7 @@ export default authMiddleware({
     "/community",
     "/jobs",
     "/shop",
+    "/shop/:id",
   ],
   ignoredRoutes: ["/api/webhook"],
 });

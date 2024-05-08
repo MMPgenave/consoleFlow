@@ -215,11 +215,10 @@ export async function getUserInfo(params: any) {
       console.log(`No user found with this clerkId:${userId}`);
       return;
     }
-    const { _id,reputation } = user;
+    const { _id, reputation } = user;
     const QuestionsAskedByThisUser = await Question.find({
       author: _id,
     }).populate({ path: "tags", model: Tag });
-    console.log(`ques:${QuestionsAskedByThisUser}`);
 
     // calculte the total upvotes of questions
     let totalUpvotesEarnedByAskingQuestions = 0;

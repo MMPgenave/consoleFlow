@@ -20,7 +20,7 @@ const Shop = async ({ searchParams }: URLProps) => {
       </div>
       <div className="mt-10">
         {result?.drinks ? (
-          <div className="flex flex-wrap justify-center gap-6 ">
+          <div className="flex flex-wrap justify-start gap-6 ">
             {result?.drinks.map((drink: any) => {
               return <DrinkCard key={drink.idDrink} drink={drink} />;
             })}
