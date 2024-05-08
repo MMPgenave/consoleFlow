@@ -11,7 +11,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const { userId } = auth();
   if (userId) {
     const mongoUser = await getUserById({ userId });
-    const knockClient = new Knock(process.env.KNOCK_SECRET_API_KEY);
+    const knockClient = new Knock("sk_test_amLsV98Sm_1FWsTVA--BKZYSMp0i2D9E7E3-S2AkC9Y");
     const knockUser = await knockClient.users.identify(userId, {
       name: mongoUser.name,
       email: mongoUser.email,

@@ -22,7 +22,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     connectToDataBase();
 
     const { title, content, tags, author, path } = params;
-    const knockClient = new Knock(process.env.KNOCK_SECRET_API_KEY);
+    const knockClient = new Knock("sk_test_amLsV98Sm_1FWsTVA--BKZYSMp0i2D9E7E3-S2AkC9Y");
     const mongoUser = await User.findById({ _id: author });
     // create the question
     const question = await Question.create({
