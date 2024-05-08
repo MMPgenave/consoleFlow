@@ -7,11 +7,11 @@ import "@knocklabs/react/dist/index.css";
 import { useAuth } from "@clerk/nextjs";
 import { BellIcon } from "@heroicons/react/24/outline";
 
-const Notification = ({ userId }: any) => {
+const Notification = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOnClient, setisOnClient] = useState(false);
   const notifButtonRef = useRef(null);
-  const { sessionId } = useAuth();
+  const { sessionId, userId } = useAuth();
 
   useEffect(() => {
     setisOnClient(true);
@@ -21,12 +21,12 @@ const Notification = ({ userId }: any) => {
     <KnockProvider
       // @ts-ignore
 
-      apiKey={process.env.KNOCK_PUBLIC_KEY}
+      apiKey="pk_test_S8Bl-2mOPitpfU5MSyboa6MKRJe22k7sg1ZjwG4ejU8"
       // @ts-ignore
       userId={userId}
     >
       {/* @ts-ignore */}
-      <KnockFeedProvider feedId={process.env.KNOCK_FEED_CHANNEL_ID}>
+      <KnockFeedProvider feedId="79c4c49c-761a-4717-8af1-c335f48cfcad">
         <>
           <NotificationIconButton ref={notifButtonRef} onClick={(e) => setIsVisible(!isVisible)} />
           <NotificationFeedPopover

@@ -8,7 +8,7 @@ import MobileNavigationBar from "../MobileNavigationBar/MobileNavigationBar";
 import GlobalSearchingSystem from "../search/GlobalSearch";
 import { usePathname } from "next/navigation";
 import Notification from "../Notification/Notification";
-const Navbar = ({ userId }: any) => {
+const Navbar = () => {
   const currentPath = usePathname();
   return (
     <nav className="background-light900_dark200 fixed z-50  flex w-full justify-between gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12 ">
@@ -34,7 +34,7 @@ const Navbar = ({ userId }: any) => {
             }}
           />
         </SignedIn>
-        <Notification userId={userId} />
+        <Notification />
         <MobileNavigationBar />
       </div>
     </nav>
