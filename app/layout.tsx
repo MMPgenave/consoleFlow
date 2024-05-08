@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: "/assets/images/cover.jpg",
   },
-  metadataBase: new URL("https://console-flow.vercel.app"),
+  metadataBase: new URL("https://tourmaline-treacle-845d94.netlify.app/"),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
