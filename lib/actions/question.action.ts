@@ -62,6 +62,11 @@ export async function createQuestion(params: CreateQuestionParams) {
     await knockClient.notify("new-post", {
       actor: mongoUser.clerkId,
       recipients: otherUsers.map((user) => user.clerkId),
+      data: {
+        text: {
+          value: title,
+        },
+      },
     });
 
     revalidatePath(path);
