@@ -12,6 +12,7 @@ import {
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
+  RecommendedParams,
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
 import { InteractionTow } from "@/database/interaction.model";
@@ -255,5 +256,54 @@ export async function getHotQuestions() {
     return { questions };
   } catch (error) {
     console.error(`Error in getHotQuestions server action is :${error}`);
+  }
+}
+export async function getRrecommendedQuestions(params: RecommendedParams) {
+  try {
+    await connectToDataBase();
+    const { userId, page = 1, pageSize = 10, searchQuery } = params;
+    // find user
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      throw new Error("user not found!.");
+    }
+    const skipAmount = (page - 1) * pageSize;
+    // Find the user interactions
+    const userInteractions = await InteractionTow.find({ user: user._id }).populate("tags").exec();
+    // Extract tags from user's interactions
+    const userTags = userInteractions.reduce((tags, interaction) => {
+      if (interaction.tags) {
+        tags = tags.concat(interaction.tags);
+      }
+      return tags;
+    }, []);
+    // Get distinct tag Ids from user's interactions
+    // @ts-ignore
+    const distinctUserTagIds = [...new Set(userTags.map((tag: any) => tag._id))];
+    const query: FilterQuery<typeof Question> = {
+      $and: [{ tags: { $in: distinctUserTagIds } }, { author: { $ne: user._id } }],
+    };
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: searchQuery, $options: "i" } },
+        { content: { $regex: searchQuery, $options: "i" } },
+      ];
+    }
+    const totalQuestions = await Question.countDocuments(query);
+    const recommendedQuestions = await Question.find(query)
+      .populate({
+        path: "tags",
+        model: Tag,
+      })
+      .populate({
+        path: "author",
+        model: User,
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
+    const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
+    return { questions: recommendedQuestions, isNext };
+  } catch (error) {
+    console.error(`error in getting recommended Questions is ${error}`);
   }
 }

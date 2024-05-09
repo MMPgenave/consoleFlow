@@ -5,17 +5,37 @@ import { HomePageFilters } from "@/constants/Filter";
 import HomePageFilter from "@/components/home/HomePageFilter";
 import QuestionCard from "@/components/shared/Card/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
-import { getAllQuestions } from "@/lib/actions/question.action";
+import { getAllQuestions, getRrecommendedQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { auth } from "@clerk/nextjs";
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const results = await getAllQuestions({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-    pageSize: 10,
-  });
+  const { userId } = auth();
+  let results;
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      results = await getRrecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+        pageSize: 10,
+      });
+    } else {
+      results = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    results = await getAllQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+      pageSize: 10,
+    });
+  }
+
   return (
     <>
       <main className="">
