@@ -12,7 +12,13 @@ const ThemeSwitcher = () => {
     <Menubar className="relative border-none bg-transparent shadow-none">
       <MenubarMenu>
         <MenubarTrigger className="hover:cursor-pointer focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200">
-          {mode === "light" ? <div className="sun"></div> : <div className="moon"></div>}
+          {mode === "light" ? (
+            <div className="sun"></div>
+          ) : mode === "dark" ? (
+            <div className="moon"></div>
+          ) : (
+            <div className="system"></div>
+          )}
         </MenubarTrigger>
         <MenubarContent className="absolute -left-12 mt-3 min-w-[100px]  rounded  border bg-light-900 py-2 dark:border-dark-400 dark:bg-dark-300  ">
           {themes.map((item) => (
@@ -28,7 +34,7 @@ const ThemeSwitcher = () => {
                 }
               }}
             >
-              <Image src={item.icon} width={30} height={30} alt={item.label} />
+              <Image src={item.icon} width={15} height={15} alt={item.label} />
               <div className={`body-semibold   ${mode === item.label ? "text-primary-500 " : "text-dark100_light900"}`}>
                 {item.value}
               </div>

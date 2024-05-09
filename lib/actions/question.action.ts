@@ -17,12 +17,13 @@ import { revalidatePath } from "next/cache";
 import { InteractionTow } from "@/database/interaction.model";
 import { FilterQuery } from "mongoose";
 import { Knock } from "@knocklabs/node";
+const knockClient = new Knock("sk_test_amLsV98Sm_1FWsTVA--BKZYSMp0i2D9E7E3-S2AkC9Y");
+
 export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDataBase();
 
     const { title, content, tags, author, path } = params;
-    const knockClient = new Knock("sk_test_amLsV98Sm_1FWsTVA--BKZYSMp0i2D9E7E3-S2AkC9Y");
     const mongoUser = await User.findById({ _id: author });
     // create the question
     const question = await Question.create({
