@@ -33,7 +33,7 @@ const HomePageFilter = ({ filterData }: PropType) => {
     }
   }
   return (
-    <div className="mt-10 flex items-center gap-2 max-md:hidden">
+    <div className="mt-10 flex flex-wrap items-center gap-2 max-md:hidden">
       {filterData.map((data) => {
         return (
           <div
