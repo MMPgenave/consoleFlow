@@ -96,3 +96,6 @@ code {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+button.rnf-notification-icon-button {
+  color: #12434a !important ;
+}
