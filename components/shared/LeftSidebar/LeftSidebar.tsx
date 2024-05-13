@@ -5,6 +5,7 @@ import Image from "next/image";
 import Tag from "../Tag/Tag";
 import { getHotQuestions } from "@/lib/actions/question.action";
 import { getHotTags } from "@/lib/actions/tag.action";
+
 const LeftSidebar = async () => {
   const result = await getHotQuestions();
   const hotQuestions = result?.questions;
@@ -18,6 +19,7 @@ const LeftSidebar = async () => {
        shadow-light-300  dark:shadow-none max-sm:hidden lg:w-[360px] "
     >
       <div className="text-dark400_light800 h3-bold">سوالات تاپ</div>
+
       <div className="mt-5 flex flex-col gap-6">
         {hotQuestions!.map((data) => {
           return (
@@ -26,12 +28,13 @@ const LeftSidebar = async () => {
               href={`/question/${data._id}`}
               className="flex w-[95%] items-center justify-between hover:opacity-80"
             >
-              <div className="text-dark400_light800 w-[80%] text-sm">{data.title}</div>
+              <div className="text-dark400_light800 w-4/5 text-sm">{data.title}</div>
               <Image src="/assets/icons/arrow-left.svg" alt="arrow" width={20} height={20} className="invert-colors" />
             </Link>
           );
         })}
       </div>
+
       <div className="text-dark400_light800 h3-bold mt-6"> تگ های ترند</div>
       <div className="mt-5 flex flex-col gap-6 pr-2">
         {hotTags.map((tag) => {
